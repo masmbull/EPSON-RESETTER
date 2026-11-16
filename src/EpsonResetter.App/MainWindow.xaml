@@ -1,0 +1,112 @@
+<Window x:Class="EpsonResetter.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="EPSON RESETTER"
+        Height="880" Width="1320" MinHeight="660" MinWidth="1080"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource Brush.PageBackground}"
+        FontFamily="Segoe UI"
+        UseLayoutRounding="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="236" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Background="{StaticResource Brush.Sidebar}">
+            <Grid Margin="18,22,18,16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="EPSON" FontSize="21" FontWeight="Bold" Foreground="White" />
+                    <TextBlock Text="R E S E T T E R"
+                               FontSize="10"
+                               Foreground="{StaticResource Brush.SidebarMuted}"
+                               Margin="1,2,0,0" />
+                </StackPanel>
+
+                <Border Grid.Row="1" Height="1" Background="#1F3850" Margin="0,18,0,14" />
+
+                <ItemsControl Grid.Row="2" ItemsSource="{Binding Navigation}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton GroupName="Navigation"
+                                         Style="{StaticResource Nav.Radio}"
+                                         Content="{Binding Title}"
+                                         IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                         Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                                         CommandParameter="{Binding}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <StackPanel Grid.Row="3">
+                    <TextBlock Text="LOCAL WORKSPACE"
+                               FontSize="9.5"
+                               Foreground="{StaticResource Brush.SidebarMuted}" />
+                    <TextBlock Text="Windows print subsystem"
+                               FontSize="11"
+                               Foreground="{StaticResource Brush.SidebarText}"
+                               Margin="0,3,0,0"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="62" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="28" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0"
+                    Background="{StaticResource Brush.Card}"
+                    BorderBrush="{StaticResource Brush.Border}"
+                    BorderThickness="0,0,0,1">
+                <Grid Margin="26,0">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="{Binding PageTitle}"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource Brush.TextPrimary}" />
+                        <TextBlock Text="EPSON RESETTER"
+                                   FontSize="9.5"
+                                   Foreground="{StaticResource Brush.TextMuted}"
+                                   Margin="0,2,0,0" />
+                    </StackPanel>
+
+                    <Button Style="{StaticResource Button.Secondary}"
+                            Content="Rescan printers"
+                            Command="{Binding RescanCommand}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center" />
+                </Grid>
+            </Border>
+
+            <ContentControl Grid.Row="1" Content="{Binding CurrentPage}" />
+
+            <Border Grid.Row="2" Background="{StaticResource Brush.Sidebar}">
+                <Grid Margin="26,0">
+                    <TextBlock Text="{Binding State.StatusMessage}"
+                               Foreground="#8FA9C2"
+                               FontSize="11.5"
+                               VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis" />
+                    <TextBlock Text="Working..."
+                               Foreground="#4C9AFF"
+                               FontSize="11.5"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               Visibility="{Binding CurrentPage.IsBusy, Converter={StaticResource BoolToVis}}" />
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

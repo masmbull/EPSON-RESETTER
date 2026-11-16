@@ -1,0 +1,129 @@
+<UserControl x:Class="EpsonResetter.App.Views.MaintenanceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="720" d:DesignWidth="1040">
+    <Grid Margin="26,22,26,26">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <StackPanel>
+                <TextBlock Text="Maintenance" Style="{StaticResource Text.PageTitle}" />
+                <TextBlock Text="Standard Windows print-system actions for the selected printer."
+                           Style="{StaticResource Text.PageSubtitle}" />
+            </StackPanel>
+
+            <Border Style="{StaticResource Badge}" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <TextBlock Text="{Binding Printer.Name, TargetNullValue=No printer selected}" FontSize="11.5" />
+            </Border>
+        </Grid>
+
+        <UniformGrid Grid.Row="2" Columns="2" Margin="0,18,0,0">
+            <Border Style="{StaticResource Card}" Margin="0,0,10,10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Open print queue" Style="{StaticResource Text.CardTitle}" />
+                    <TextBlock Grid.Row="1"
+                               Text="Shows the Windows print queue for this printer, including pending documents and the pause state."
+                               Style="{StaticResource Text.Hint}"
+                               Margin="0,6,0,0" />
+                    <Button Grid.Row="2"
+                            Style="{StaticResource Button.Secondary}"
+                            Content="Open queue"
+                            Command="{Binding OpenQueueCommand}"
+                            HorizontalAlignment="Left"
+                            Margin="0,14,0,0" />
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource Card}" Margin="0,0,0,10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Printer properties" Style="{StaticResource Text.CardTitle}" />
+                    <TextBlock Grid.Row="1"
+                               Text="Opens the Windows printer properties dialog with the driver, port, sharing and advanced settings."
+                               Style="{StaticResource Text.Hint}"
+                               Margin="0,6,0,0" />
+                    <Button Grid.Row="2"
+                            Style="{StaticResource Button.Secondary}"
+                            Content="Open properties"
+                            Command="{Binding OpenPropertiesCommand}"
+                            HorizontalAlignment="Left"
+                            Margin="0,14,0,0" />
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource Card}" Margin="0,0,10,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Print a test page" Style="{StaticResource Text.CardTitle}" />
+                    <TextBlock Grid.Row="1"
+                               Text="Sends the standard Windows test page to this printer. Use it to confirm the physical print path."
+                               Style="{StaticResource Text.Hint}"
+                               Margin="0,6,0,0" />
+                    <Button Grid.Row="2"
+                            Style="{StaticResource Button.Secondary}"
+                            Content="Print test page"
+                            Command="{Binding PrintTestPageCommand}"
+                            HorizontalAlignment="Left"
+                            Margin="0,14,0,0" />
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Open Web Admin" Style="{StaticResource Text.CardTitle}" />
+                    <TextBlock Grid.Row="1"
+                               Text="Opens the printer's built-in administration page in the default browser using the detected address."
+                               Style="{StaticResource Text.Hint}"
+                               Margin="0,6,0,0" />
+                    <Button Grid.Row="2"
+                            Style="{StaticResource Button.Secondary}"
+                            Content="Open Web Admin"
+                            Command="{Binding OpenWebAdminCommand}"
+                            HorizontalAlignment="Left"
+                            Margin="0,14,0,0" />
+                </Grid>
+            </Border>
+        </UniformGrid>
+
+        <Border Grid.Row="3" Padding="14" CornerRadius="8" Margin="0,4,0,0" VerticalAlignment="Top">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="{StaticResource Brush.InfoSoft}" />
+                </Style>
+            </Border.Style>
+            <TextBlock Text="{Binding Message}" FontSize="12.5" TextWrapping="Wrap" />
+        </Border>
+
+        <TextBlock Grid.Row="4"
+                   Text="These actions use the built-in Windows print dialogs. No vendor service utility, reset command or undocumented printer command is invoked."
+                   Style="{StaticResource Text.Hint}"
+                   Margin="0,14,0,0" />
+    </Grid>
+</UserControl>

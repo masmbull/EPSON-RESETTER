@@ -1,0 +1,315 @@
+<UserControl x:Class="EpsonResetter.App.Views.PrinterDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="820" d:DesignWidth="1040">
+    <Grid>
+        <Border Width="520"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Padding="28">
+            <Border.Style>
+                <Style TargetType="Border" BasedOn="{StaticResource Card}">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasPrinter}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <StackPanel>
+                <TextBlock Text="No printer selected"
+                           FontSize="15"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center" />
+                <TextBlock Text="Select a printer from the printer list to see its information, Web Admin address and diagnostics."
+                           Style="{StaticResource Text.Hint}"
+                           TextAlignment="Center"
+                           Margin="0,8,0,0" />
+                <Button Style="{StaticResource Button.Secondary}"
+                        Content="Open printer list"
+                        Command="{Binding BackToPrintersCommand}"
+                        HorizontalAlignment="Center"
+                        Margin="0,16,0,0" />
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      Visibility="{Binding HasPrinter, Converter={StaticResource BoolToVis}}">
+            <StackPanel Margin="26,22,26,26">
+                <Grid>
+                    <StackPanel>
+                        <Button Style="{StaticResource Button.Ghost}"
+                                Content="← Back to printers"
+                                Command="{Binding BackToPrintersCommand}"
+                                HorizontalAlignment="Left"
+                                Padding="0,0,12,0"
+                                Margin="-10,0,0,0" />
+                        <TextBlock Text="{Binding Printer.Name}"
+                                   Style="{StaticResource Text.PageTitle}"
+                                   Margin="0,4,0,0" />
+                        <TextBlock Text="{Binding ConnectionText}" Style="{StaticResource Text.PageSubtitle}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <Border Style="{StaticResource Badge}"
+                                Margin="0,0,8,0"
+                                Visibility="{Binding Printer.IsEpson, Converter={StaticResource BoolToVis}}">
+                            <TextBlock Text="EPSON"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource Brush.Accent}" />
+                        </Border>
+
+                        <Border Margin="0,0,8,0">
+                            <Border.Style>
+                                <Style TargetType="Border" BasedOn="{StaticResource Badge}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Printer.Condition}" Value="Normal">
+                                            <Setter Property="Background" Value="{StaticResource Brush.SuccessSoft}" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Printer.Condition}" Value="Offline">
+                                            <Setter Property="Background" Value="{StaticResource Brush.DangerSoft}" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Printer.Condition}" Value="Error">
+                                            <Setter Property="Background" Value="{StaticResource Brush.WarningSoft}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <TextBlock Text="{Binding ConditionText}" FontSize="11" FontWeight="SemiBold" />
+                        </Border>
+
+                        <Border Style="{StaticResource Badge}"
+                                Visibility="{Binding Printer.IsDefault, Converter={StaticResource BoolToVis}}">
+                            <TextBlock Text="Default printer"
+                                       FontSize="11"
+                                       Foreground="{StaticResource Brush.TextSecondary}" />
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Margin="0,18,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="420" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Style="{StaticResource Card}" Margin="0,0,14,0">
+                        <StackPanel>
+                            <TextBlock Text="PRINTER INFORMATION" Style="{StaticResource Text.SectionHeader}" />
+
+                            <Grid Margin="0,14,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="132" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Model" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
+                                <TextBlock Grid.Column="1" Text="{Binding ModelText}" Style="{StaticResource Text.Value}" Margin="0,0,0,11" />
+
+                                <TextBlock Text="Manufacturer" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
+                                <TextBlock Grid.Column="1" Text="{Binding ManufacturerText}" Style="{StaticResource Text.Value}" Margin="0,0,0,11" />
+
+                                <TextBlock Text="Driver" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
+                                <TextBlock Grid.Column="1" Text="{Binding DriverText}" Style="{StaticResource Text.Value}" Margin="0,0,0,11" />
+
+                                <TextBlock Text="Driver version" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
+                                <TextBlock Grid.Column="1" Text="{Binding DriverVersionText}" Style="{StaticResource Text.Value}" Margin="0,0,0,11" />
+
+                                <TextBlock Text="Driver file" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding Printer.DriverInfName, TargetNullValue=Not reported}"
+                                           Style="{StaticResource Text.Mono}"
+                                           Margin="0,0,0,11" />
+
+                                <TextBlock Text="Port" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
+                                <TextBlock Grid.Column="1" Text="{Binding PortText}" Style="{StaticResource Text.Mono}" Margin="0,0,0,11" />
+
+                                <TextBlock Text="Connection" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
+                                <TextBlock Grid.Column="1" Text="{Binding ConnectionText}" Style="{StaticResource Text.Value}" Margin="0,0,0,11" />
+
+                                <TextBlock Text="IP address" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
+                                <TextBlock Grid.Column="1" Text="{Binding AddressText}" Style="{StaticResource Text.Mono}" Margin="0,0,0,11" />
+
+                                <TextBlock Text="Port number" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
+                                <TextBlock Grid.Column="1" Text="{Binding PortNumberText}" Style="{StaticResource Text.Value}" Margin="0,0,0,11" />
+
+                                <TextBlock Text="Location" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding Printer.Location, TargetNullValue=Not reported}"
+                                           Style="{StaticResource Text.Value}"
+                                           Margin="0,0,0,11" />
+
+                                <TextBlock Text="Detected" Style="{StaticResource Text.Label}" />
+                                <TextBlock Grid.Column="1" Text="{Binding DetectedText}" Style="{StaticResource Text.Value}" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="1" Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Text="PRINTER WEB ADMIN" Style="{StaticResource Text.SectionHeader}" />
+                            <TextBlock Text="Open the printer's built-in administration page in the default browser."
+                                       Style="{StaticResource Text.Hint}"
+                                       Margin="0,6,0,0" />
+
+                            <Border Background="{StaticResource Brush.HeaderBackground}"
+                                    CornerRadius="6"
+                                    Padding="12"
+                                    Margin="0,14,0,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="96" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Detected" Style="{StaticResource Text.Label}" VerticalAlignment="Center" />
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{Binding DetectedAddress, TargetNullValue=Not detected}"
+                                                   Style="{StaticResource Text.Mono}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="{Binding AddressSourceText}"
+                                                   Style="{StaticResource Text.Hint}"
+                                                   Margin="0,2,0,0" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <TextBlock Text="IP address or hostname" Style="{StaticResource Text.Label}" Margin="0,16,0,6" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox Text="{Binding ManualAddress, UpdateSourceTrigger=PropertyChanged}"
+                                         ToolTip="Optional. Overrides the detected address." />
+
+                                <Button Grid.Column="1"
+                                        Style="{StaticResource Button.Secondary}"
+                                        Content="Validate"
+                                        Command="{Binding ResolveWebAdminAddressCommand}"
+                                        Margin="8,0,0,0" />
+
+                                <Button Grid.Column="2"
+                                        Style="{StaticResource Button.Primary}"
+                                        Content="Open Web Admin"
+                                        Command="{Binding OpenWebAdminCommand}"
+                                        Margin="8,0,0,0" />
+                            </Grid>
+
+                            <TextBlock Text="{Binding WebAdminWarnings}"
+                                       Foreground="{StaticResource Brush.Warning}"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Margin="0,12,0,0" />
+
+                            <ItemsControl ItemsSource="{Binding WebAdminCandidates}" Margin="0,14,0,0">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{StaticResource Button.Secondary}"
+                                                Content="{Binding Url}"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,0,0,6"
+                                                Padding="12,6"
+                                                Command="{Binding DataContext.OpenCandidateCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                                                CommandParameter="{Binding}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <Border Margin="0,14,0,0" Padding="12" CornerRadius="6">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{StaticResource Brush.SuccessSoft}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding WebAdminIsError}" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource Brush.WarningSoft}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <TextBlock Text="{Binding WebAdminMessage}" FontSize="12.5" TextWrapping="Wrap" />
+                            </Border>
+
+                            <TextBlock Text="No administrator credentials are requested or stored. TLS certificate validation is never disabled."
+                                       Style="{StaticResource Text.Hint}"
+                                       Margin="0,12,0,0" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <Border Style="{StaticResource Card}" Margin="0,16,0,0">
+                    <StackPanel>
+                        <Grid>
+                            <StackPanel>
+                                <TextBlock Text="Diagnostics" Style="{StaticResource Text.CardTitle}" />
+                                <TextBlock Text="{Binding DiagnosticSummary}" Style="{StaticResource Text.Hint}" Margin="0,3,0,0" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                <Button Style="{StaticResource Button.Secondary}"
+                                        Content="Maintenance"
+                                        Command="{Binding OpenMaintenanceCommand}"
+                                        Margin="8,0,0,0" />
+                                <Button Style="{StaticResource Button.Secondary}"
+                                        Content="Waste Ink Counter"
+                                        Command="{Binding OpenWasteInkCommand}"
+                                        Margin="8,0,0,0" />
+                                <Button Style="{StaticResource Button.Primary}"
+                                        Content="Run diagnostics"
+                                        Command="{Binding RunDiagnosticsCommand}"
+                                        Margin="8,0,0,0" />
+                            </StackPanel>
+                        </Grid>
+
+                        <ItemsControl ItemsSource="{Binding DiagnosticReport.Checks}" Margin="0,12,0,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,6">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="170" />
+                                            <ColumnDefinition Width="84" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="{Binding Name}" FontSize="12.5" FontWeight="SemiBold" />
+
+                                        <TextBlock Grid.Column="1" Text="{Binding Status}" FontSize="12">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="{StaticResource Brush.TextSecondary}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Pass">
+                                                            <Setter Property="Foreground" Value="{StaticResource Brush.Success}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Warning">
+                                                            <Setter Property="Foreground" Value="{StaticResource Brush.Warning}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Fail">
+                                                            <Setter Property="Foreground" Value="{StaticResource Brush.Danger}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+
+                                        <TextBlock Grid.Column="2"
+                                                   Text="{Binding Message}"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource Brush.TextSecondary}"
+                                                   TextWrapping="Wrap" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
