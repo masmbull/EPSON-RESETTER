@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0AD29E3E-6BF4-49F5-A73E-CEFB1D96BE90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpsonResetter.Core", "src\EpsonResetter.Core\EpsonResetter.Core.csproj", "{B9D95394-47EC-4B73-B07C-B080F04B5E8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpsonResetter.Infrastructure", "src\EpsonResetter.Infrastructure\EpsonResetter.Infrastructure.csproj", "{454F04EE-341E-484B-BF2D-464E07B498CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpsonResetter.App", "src\EpsonResetter.App\EpsonResetter.App.csproj", "{AAC07537-6C65-4498-B22B-6F73594A6792}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3C404524-F1E4-40C5-9EDA-2EC8C59D5D1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpsonResetter.Tests", "tests\EpsonResetter.Tests\EpsonResetter.Tests.csproj", "{8312C49E-8FE0-4BBF-A39D-7A8545C2B867}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9D95394-47EC-4B73-B07C-B080F04B5E8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9D95394-47EC-4B73-B07C-B080F04B5E8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9D95394-47EC-4B73-B07C-B080F04B5E8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9D95394-47EC-4B73-B07C-B080F04B5E8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{454F04EE-341E-484B-BF2D-464E07B498CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{454F04EE-341E-484B-BF2D-464E07B498CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{454F04EE-341E-484B-BF2D-464E07B498CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{454F04EE-341E-484B-BF2D-464E07B498CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAC07537-6C65-4498-B22B-6F73594A6792}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAC07537-6C65-4498-B22B-6F73594A6792}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAC07537-6C65-4498-B22B-6F73594A6792}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAC07537-6C65-4498-B22B-6F73594A6792}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8312C49E-8FE0-4BBF-A39D-7A8545C2B867}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8312C49E-8FE0-4BBF-A39D-7A8545C2B867}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8312C49E-8FE0-4BBF-A39D-7A8545C2B867}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8312C49E-8FE0-4BBF-A39D-7A8545C2B867}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B9D95394-47EC-4B73-B07C-B080F04B5E8B} = {0AD29E3E-6BF4-49F5-A73E-CEFB1D96BE90}
+		{454F04EE-341E-484B-BF2D-464E07B498CF} = {0AD29E3E-6BF4-49F5-A73E-CEFB1D96BE90}
+		{AAC07537-6C65-4498-B22B-6F73594A6792} = {0AD29E3E-6BF4-49F5-A73E-CEFB1D96BE90}
+		{8312C49E-8FE0-4BBF-A39D-7A8545C2B867} = {3C404524-F1E4-40C5-9EDA-2EC8C59D5D1F}
+	EndGlobalSection
+EndGlobal

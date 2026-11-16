@@ -1,0 +1,143 @@
+<UserControl x:Class="EpsonResetter.App.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="720" d:DesignWidth="1040">
+    <Grid Margin="26,22,26,26">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <StackPanel>
+                <TextBlock Text="Settings" Style="{StaticResource Text.PageTitle}" />
+                <TextBlock Text="Web Admin defaults, network timeouts and local storage. Settings are stored in the local SQLite database."
+                           Style="{StaticResource Text.PageSubtitle}" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="0,18,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="620" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource Card}" Margin="0,0,14,0" VerticalAlignment="Top">
+                <StackPanel>
+                    <TextBlock Text="WEB ADMIN AND NETWORK" Style="{StaticResource Text.SectionHeader}" />
+
+                    <Grid Margin="0,14,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Preferred scheme" Style="{StaticResource Text.Label}" VerticalAlignment="Center" />
+                        <ComboBox Grid.Column="1"
+                                  ItemsSource="{Binding SchemeOptions}"
+                                  SelectedItem="{Binding PreferredScheme}"
+                                  HorizontalAlignment="Left"
+                                  Width="240"
+                                  VerticalContentAlignment="Center" />
+
+                        <TextBlock Text="HTTP port" Style="{StaticResource Text.Label}" VerticalAlignment="Center" Margin="0,14,0,0" />
+                        <TextBox Grid.Column="1"
+                                 Text="{Binding HttpPort, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="120"
+                                 HorizontalAlignment="Left"
+                                 Margin="0,14,0,0" />
+
+                        <TextBlock Text="HTTPS port" Style="{StaticResource Text.Label}" VerticalAlignment="Center" Margin="0,14,0,0" />
+                        <TextBox Grid.Column="1"
+                                 Text="{Binding HttpsPort, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="120"
+                                 HorizontalAlignment="Left"
+                                 Margin="0,14,0,0" />
+
+                        <TextBlock Text="Network timeout (ms)" Style="{StaticResource Text.Label}" VerticalAlignment="Center" Margin="0,14,0,0" />
+                        <TextBox Grid.Column="1"
+                                 Text="{Binding NetworkTimeout, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="120"
+                                 HorizontalAlignment="Left"
+                                 Margin="0,14,0,0" />
+                    </Grid>
+
+                    <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,18,0,14" />
+
+                    <TextBlock Text="DEFAULTS" Style="{StaticResource Text.SectionHeader}" />
+
+                    <CheckBox Content="Show only Epson printers by default"
+                              IsChecked="{Binding ShowOnlyEpson}"
+                              Margin="0,12,0,0" />
+                    <CheckBox Content="Ask before opening a printer Web Admin page"
+                              IsChecked="{Binding ConfirmBeforeOpening}" />
+
+                    <TextBlock Text="Printer administrator credentials are never stored. URLs containing credentials are rejected."
+                               Style="{StaticResource Text.Hint}"
+                               Margin="0,14,0,0" />
+
+                    <ItemsControl ItemsSource="{Binding ValidationErrors}" Margin="0,12,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}"
+                                           Foreground="{StaticResource Brush.Danger}"
+                                           FontSize="12.5"
+                                           Margin="0,2" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
+                        <Button Style="{StaticResource Button.Primary}"
+                                Content="Save settings"
+                                Command="{Binding SaveCommand}" />
+                        <Button Style="{StaticResource Button.Secondary}"
+                                Content="Restore defaults"
+                                Command="{Binding ResetDefaultsCommand}"
+                                Margin="10,0,0,0" />
+                    </StackPanel>
+
+                    <TextBlock Text="{Binding Message}"
+                               FontSize="12.5"
+                               TextWrapping="Wrap"
+                               Margin="0,12,0,0"
+                               Visibility="{Binding Message, Converter={StaticResource StringToVis}}" />
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" Style="{StaticResource Card}" VerticalAlignment="Top">
+                <StackPanel>
+                    <TextBlock Text="LOCAL STORAGE" Style="{StaticResource Text.SectionHeader}" />
+
+                    <TextBlock Text="Database" Style="{StaticResource Text.Label}" Margin="0,14,0,0" />
+                    <TextBlock Text="{Binding DatabasePathText}" Style="{StaticResource Text.Mono}" Margin="0,3,0,0" />
+
+                    <TextBlock Text="Logs" Style="{StaticResource Text.Label}" Margin="0,12,0,0" />
+                    <TextBlock Text="{Binding LogPathText}" Style="{StaticResource Text.Mono}" Margin="0,3,0,0" />
+
+                    <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,18,0,14" />
+
+                    <TextBlock Text="COMPATIBILITY REGISTRY" Style="{StaticResource Text.SectionHeader}" />
+                    <TextBlock Text="{Binding RegistryText}" Style="{StaticResource Text.Value}" Margin="0,8,0,0" />
+
+                    <TextBlock Text="Entries are only marked as supported when a documented, vendor-authorised method has been verified for the exact model. No reset method is currently enabled."
+                               Style="{StaticResource Text.Hint}"
+                               Margin="0,10,0,0" />
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <TextBlock Grid.Row="3"
+                   Text="{Binding ErrorMessage}"
+                   Foreground="{StaticResource Brush.Danger}"
+                   FontSize="12.5"
+                   TextWrapping="Wrap"
+                   Margin="0,8,0,0"
+                   Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVis}}" />
+    </Grid>
+</UserControl>
