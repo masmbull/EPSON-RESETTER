@@ -68,6 +68,15 @@ public class WebAdminUrlValidatorTests
         Assert.True(result.IsValid, result.Error);
         Assert.Equal("http://[fe80::1]/", result.NormalizedUrl);
     }
+
+    [Fact]
+    public void Accepts_Bare_IPv6_Address()
+    {
+        var result = WebAdminUrlValidator.Validate("fe80::1");
+
+        Assert.True(result.IsValid, result.Error);
+        Assert.Equal("http://[fe80::1]/", result.NormalizedUrl);
+    }
 }
 
 public class WebAdminAddressResolverTests
@@ -186,6 +195,17 @@ public class WebAdminAddressResolverTests
 
         Assert.Equal("10.0.0.7", resolution.DetectedAddress);
         Assert.Equal("port-name", resolution.AddressSource);
+    }
+
+    [Fact]
+    public void Builds_Candidates_For_IPv6_Addresses()
+    {
+        var printer = NetworkPrinter(ip: "fe80::1", port: "fe80::1");
+
+        var resolution = new WebAdminAddressResolver(Settings()).Resolve(printer);
+
+        Assert.Equal("http://[fe80::1]/", resolution.Candidates[0].Url);
+        Assert.True(WebAdminUrlValidator.Validate(resolution.Candidates[0].Url).IsValid);
     }
 
     [Fact]

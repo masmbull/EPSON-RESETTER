@@ -92,12 +92,20 @@
             <ContentControl Grid.Row="1" Content="{Binding CurrentPage}" />
 
             <Border Grid.Row="2" Background="{StaticResource Brush.Sidebar}">
-                <TextBlock Text="{Binding State.StatusMessage}"
-                           Foreground="#8FA9C2"
-                           FontSize="11.5"
-                           VerticalAlignment="Center"
-                           Margin="26,0"
-                           TextTrimming="CharacterEllipsis" />
+                <Grid Margin="26,0">
+                    <TextBlock Text="{Binding State.StatusMessage}"
+                               Foreground="#8FA9C2"
+                               FontSize="11.5"
+                               VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis" />
+                    <TextBlock Text="Working..."
+                               Foreground="#4C9AFF"
+                               FontSize="11.5"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               Visibility="{Binding CurrentPage.IsBusy, Converter={StaticResource BoolToVis}}" />
+                </Grid>
             </Border>
         </Grid>
     </Grid>

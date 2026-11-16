@@ -56,10 +56,12 @@ public sealed partial class WebAdminAddressResolver
         }
 
         var candidates = new List<WebAdminCandidate>();
+        var urlHost = FormatHost(address);
+
         foreach (var scheme in OrderSchemes())
         {
             var port = scheme == WebAdminScheme.Http ? _settings.HttpPort : _settings.HttpsPort;
-            var url = $"{scheme.ToString().ToLowerInvariant()}://{address}{(port == DefaultPort(scheme) ? string.Empty : ":" + port)}/";
+            var url = $"{scheme.ToString().ToLowerInvariant()}://{urlHost}{(port == DefaultPort(scheme) ? string.Empty : ":" + port)}/";
             var validation = WebAdminUrlValidator.Validate(url);
             if (!validation.IsValid)
             {
@@ -126,6 +128,19 @@ public sealed partial class WebAdminAddressResolver
         };
 
     private static int DefaultPort(WebAdminScheme scheme) => scheme == WebAdminScheme.Http ? 80 : 443;
+
+    /// <summary>Brackets bare IPv6 literals so they can be embedded in a URL.</summary>
+    private static string FormatHost(string address)
+    {
+        var trimmed = address.Trim();
+
+        if (trimmed.Contains(':') && !trimmed.StartsWith('['))
+        {
+            return $"[{trimmed}]";
+        }
+
+        return trimmed;
+    }
 
     private static string? TryGetAddress(PrinterDevice printer, out string source)
     {

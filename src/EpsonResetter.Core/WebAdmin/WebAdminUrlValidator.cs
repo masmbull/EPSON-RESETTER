@@ -22,10 +22,17 @@ public static class WebAdminUrlValidator
 
         var input = rawInput.Trim();
 
-        // Accept bare hosts such as "192.168.1.50" or "printer.local:8080".
+        // Accept bare hosts such as "192.168.1.50", "printer.local:8080" or "fe80::1".
         if (!input.Contains("://", StringComparison.Ordinal))
         {
-            input = "http://" + input;
+            var bare = input.Trim();
+
+            if (bare.Contains(':') && !bare.StartsWith('[') && IPAddress.TryParse(bare, out _))
+            {
+                bare = $"[{bare}]";
+            }
+
+            input = "http://" + bare;
         }
 
         if (!Uri.TryCreate(input, UriKind.Absolute, out var uri))
