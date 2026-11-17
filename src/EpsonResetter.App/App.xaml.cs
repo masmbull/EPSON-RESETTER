@@ -27,6 +27,8 @@ public partial class App : Application
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600", Justification = "P/Invoke")]
     private static extern bool AttachConsole(int dwProcessId);
 
+    private static ShellViewModel? _shell;
+
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
@@ -61,12 +63,12 @@ public partial class App : Application
         try
         {
             var services = new AppServices(LoadSettings());
-            var shell = new ShellViewModel(services, new MessageBoxDialogService());
+            _shell = new ShellViewModel(services, new MessageBoxDialogService());
 
-            MainWindow = new MainWindow { DataContext = shell };
+            MainWindow = new MainWindow { DataContext = _shell };
             MainWindow.Show();
 
-            _ = shell.InitializeAsync();
+            _ = _shell.InitializeAsync();
         }
         catch (Exception exception)
         {
@@ -172,6 +174,7 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
+        _shell?.Dispose();
         Serilog.Log.CloseAndFlush();
         base.OnExit(e);
     }
