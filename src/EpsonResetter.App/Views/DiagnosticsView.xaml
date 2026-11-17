@@ -62,7 +62,7 @@
                                Margin="0,2,0,0" />
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Margin="20,0,20,0" VerticalAlignment="Center">
+                <StackPanel Grid.Column="1" Margin="24,0,24,0" VerticalAlignment="Center">
                     <TextBlock Text="Result" Style="{StaticResource Card.HeaderLabel}" />
                     <TextBlock Text="{Binding Summary}" FontSize="13" TextWrapping="Wrap" Margin="0,4,0,0" />
                 </StackPanel>
@@ -135,26 +135,26 @@
                                     </TextBlock.Style>
                                 </TextBlock>
 
-                                    <StackPanel Grid.Column="1" Margin="8,0,12,0">
-                                        <TextBlock Text="{Binding Name}" FontSize="12.5" FontWeight="SemiBold" />
-                                        <TextBlock Text="{Binding Status}" FontSize="11" Foreground="{StaticResource Brush.TextMuted}" />
-                                    </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="8,0,12,0">
+                                    <TextBlock Text="{Binding Name}" FontSize="12.5" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding Status}" FontSize="11" Foreground="{StaticResource Brush.TextMuted}" />
+                                </StackPanel>
 
-                                    <StackPanel Grid.Column="2">
-                                        <TextBlock Text="{Binding Message}" FontSize="12.5" TextWrapping="Wrap" />
-                                        <TextBlock Text="{Binding Detail}"
-                                                   Style="{StaticResource Text.Mono}"
-                                                   FontSize="11.5"
-                                                   Foreground="{StaticResource Brush.TextSecondary}"
-                                                   Margin="0,2,0,0"
-                                                   Visibility="{Binding Detail, Converter={StaticResource StringToVis}}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="{Binding Message}" FontSize="12.5" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Detail}"
+                                               Style="{StaticResource Text.Mono}"
+                                               FontSize="11.5"
+                                               Foreground="{StaticResource Brush.TextSecondary}"
+                                               Margin="0,2,0,0"
+                                               Visibility="{Binding Detail, Converter={StaticResource StringToVis}}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
 
         <!-- ERROR -->
         <TextBlock Grid.Row="3"
@@ -170,8 +170,7 @@
                 Grid.RowSpan="3"
                 Width="520"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                Margin="0,80,0,0"
+                VerticalAlignment="Center"
                 Padding="28"
                 Visibility="{Binding HasPrinter, Converter={StaticResource InverseBoolToVis}}">
             <Border.Style>

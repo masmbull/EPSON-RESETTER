@@ -49,51 +49,57 @@
                             <ColumnDefinition Width="200" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-                        <TextBlock Text="Preferred scheme" Style="{StaticResource Text.Label}" VerticalAlignment="Center" />
-                        <ComboBox Grid.Column="1"
+                        <TextBlock Text="Preferred scheme" Grid.Row="0" Style="{StaticResource Text.Label}" VerticalAlignment="Center" Margin="0,0,0,10" />
+                        <ComboBox Grid.Row="0" Grid.Column="1"
                                   ItemsSource="{Binding SchemeOptions}"
                                   SelectedItem="{Binding PreferredScheme}"
                                   HorizontalAlignment="Left"
                                   Width="240"
-                                  VerticalContentAlignment="Center" />
+                                  VerticalContentAlignment="Center"
+                                  Margin="0,0,0,10" />
 
-                        <TextBlock Text="HTTP port" Style="{StaticResource Text.Label}" VerticalAlignment="Center" Margin="0,14,0,0" />
-                        <TextBox Grid.Column="1"
+                        <TextBlock Text="HTTP port" Grid.Row="1" Style="{StaticResource Text.Label}" VerticalAlignment="Center" Margin="0,0,0,10" />
+                        <TextBox Grid.Row="1" Grid.Column="1"
                                  Text="{Binding HttpPort, UpdateSourceTrigger=PropertyChanged}"
                                  Width="120"
                                  HorizontalAlignment="Left"
-                                 Margin="0,14,0,0" />
+                                 Margin="0,0,0,10" />
 
-                        <TextBlock Text="HTTPS port" Style="{StaticResource Text.Label}" VerticalAlignment="Center" Margin="0,14,0,0" />
-                        <TextBox Grid.Column="1"
+                        <TextBlock Text="HTTPS port" Grid.Row="2" Style="{StaticResource Text.Label}" VerticalAlignment="Center" Margin="0,0,0,10" />
+                        <TextBox Grid.Row="2" Grid.Column="1"
                                  Text="{Binding HttpsPort, UpdateSourceTrigger=PropertyChanged}"
                                  Width="120"
                                  HorizontalAlignment="Left"
-                                 Margin="0,14,0,0" />
+                                 Margin="0,0,0,10" />
 
-                        <TextBlock Text="Network timeout (ms)" Style="{StaticResource Text.Label}" VerticalAlignment="Center" Margin="0,14,0,0" />
-                        <TextBox Grid.Column="1"
+                        <TextBlock Text="Network timeout (ms)" Grid.Row="3" Style="{StaticResource Text.Label}" VerticalAlignment="Center" Margin="0,0,0,0" />
+                        <TextBox Grid.Row="3" Grid.Column="1"
                                  Text="{Binding NetworkTimeout, UpdateSourceTrigger=PropertyChanged}"
                                  Width="120"
-                                 HorizontalAlignment="Left"
-                                 Margin="0,14,0,0" />
+                                 HorizontalAlignment="Left" />
                     </Grid>
 
-                    <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,18,0,14" />
+                    <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,20,0,16" />
 
-                    <TextBlock Text="Defaults" Style="{StaticResource Card.HeaderLabel}" />
+                    <TextBlock Text="Defaults" Style="{StaticResource Card.HeaderLabel}" Margin="0,0,0,8" />
 
                     <CheckBox Content="Show only Epson printers by default"
                               IsChecked="{Binding ShowOnlyEpson}"
-                              Margin="0,10,0,0" />
+                              Margin="0,0,0,8" />
                     <CheckBox Content="Ask before opening a printer Web Admin page"
                               IsChecked="{Binding ConfirmBeforeOpening}"
-                              Margin="0,10,0,0" />
+                              Margin="0,0,0,14" />
 
                     <TextBlock Text="Printer administrator credentials are never stored. URLs containing credentials are rejected."
                                Style="{StaticResource Text.Hint}"
-                               Margin="0,14,0,0"
+                               Margin="0,0,0,14"
                                TextWrapping="Wrap" />
 
                     <ItemsControl ItemsSource="{Binding ValidationErrors}" Margin="0,12,0,0">
@@ -130,22 +136,21 @@
                     Style="{StaticResource Card.Section}"
                     VerticalAlignment="Top">
                 <StackPanel>
-                    <TextBlock Text="Local storage" Style="{StaticResource Card.HeaderLabel}" />
+                    <TextBlock Text="Local storage" Style="{StaticResource Card.HeaderLabel}" Margin="0,0,0,14" />
 
-                    <TextBlock Text="Database" Style="{StaticResource Text.Label}" Margin="0,14,0,0" />
-                    <TextBlock Text="{Binding DatabasePathText}" Style="{StaticResource Text.Mono}" Margin="0,3,0,0" />
+                    <TextBlock Text="Database" Style="{StaticResource Text.Label}" Margin="0,0,0,4" />
+                    <TextBlock Text="{Binding DatabasePathText}" Style="{StaticResource Text.Mono}" Margin="0,0,0,16" />
 
-                    <TextBlock Text="Logs" Style="{StaticResource Text.Label}" Margin="0,12,0,0" />
-                    <TextBlock Text="{Binding LogPathText}" Style="{StaticResource Text.Mono}" Margin="0,3,0,0" />
+                    <TextBlock Text="Logs" Style="{StaticResource Text.Label}" Margin="0,0,0,4" />
+                    <TextBlock Text="{Binding LogPathText}" Style="{StaticResource Text.Mono}" Margin="0,0,0,20" />
 
-                    <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,18,0,14" />
+                    <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,0,0,16" />
 
-                    <TextBlock Text="Compatibility registry" Style="{StaticResource Card.HeaderLabel}" />
-                    <TextBlock Text="{Binding RegistryText}" Style="{StaticResource Text.Value}" Margin="0,8,0,0" />
+                    <TextBlock Text="Compatibility registry" Style="{StaticResource Card.HeaderLabel}" Margin="0,0,0,8" />
 
                     <TextBlock Text="Entries are only marked as supported when a documented, vendor-authorised method has been verified for the exact model. No reset method is currently enabled."
                                Style="{StaticResource Text.Hint}"
-                               Margin="0,10,0,0"
+                               Margin="0,0,0,16"
                                TextWrapping="Wrap" />
                 </StackPanel>
             </Border>
