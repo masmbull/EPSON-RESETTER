@@ -145,6 +145,15 @@
         <Setter Property="Foreground" Value="{StaticResource Brush.TextSecondary}" />
     </Style>
 
+    <!-- Badge: small rounded container for status chips -->
+    <Style x:Key="Badge" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Brush.HeaderBackground}" />
+        <Setter Property="CornerRadius" Value="{StaticResource Corner.SM}" />
+        <Setter Property="Padding" Value="6,2" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
     <!-- Empty state -->
     <Style x:Key="Empty.State" TargetType="Border" BasedOn="{StaticResource Card}">
         <Setter Property="Padding" Value="32" />
