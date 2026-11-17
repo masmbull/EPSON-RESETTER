@@ -13,10 +13,15 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <StackPanel>
-                <TextBlock Text="Dashboard" Style="{StaticResource Text.PageTitle}" />
-                <TextBlock Text="What Windows reports about the local printers and what EPSON RESETTER has recorded."
-                           Style="{StaticResource Text.PageSubtitle}" />
+            <StackPanel Orientation="Horizontal">
+                <Border Style="{StaticResource Header.Badge}" Margin="0,0,12,0">
+                    <Path Style="{StaticResource Header.Glyph}" Data="{StaticResource Icon.Dashboard}" />
+                </Border>
+                <StackPanel>
+                    <TextBlock Text="Dashboard" Style="{StaticResource Text.PageTitle}" />
+                    <TextBlock Text="What Windows reports about the local printers and what EPSON RESETTER has recorded."
+                               Style="{StaticResource Text.PageSubtitle}" />
+                </StackPanel>
             </StackPanel>
 
             <Button Style="{StaticResource Button.Secondary}"

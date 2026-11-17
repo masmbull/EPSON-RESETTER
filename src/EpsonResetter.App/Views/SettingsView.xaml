@@ -14,10 +14,15 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <StackPanel>
-                <TextBlock Text="Settings" Style="{StaticResource Text.PageTitle}" />
-                <TextBlock Text="Web Admin defaults, network timeouts and local storage. Settings are stored in the local SQLite database."
-                           Style="{StaticResource Text.PageSubtitle}" />
+            <StackPanel Orientation="Horizontal">
+                <Border Style="{StaticResource Header.Badge}" Margin="0,0,12,0">
+                    <Path Style="{StaticResource Header.Glyph}" Data="{StaticResource Icon.Settings}" />
+                </Border>
+                <StackPanel>
+                    <TextBlock Text="Settings" Style="{StaticResource Text.PageTitle}" />
+                    <TextBlock Text="Web Admin defaults, network timeouts and local storage. Settings are stored in the local SQLite database."
+                               Style="{StaticResource Text.PageSubtitle}" />
+                </StackPanel>
             </StackPanel>
         </Grid>
 

@@ -43,13 +43,13 @@ public sealed partial class ShellViewModel : ViewModelBase
 
         Navigation = new ObservableCollection<NavigationItem>
         {
-            new("Dashboard", typeof(DashboardViewModel)),
-            new("Printers", typeof(PrintersViewModel)),
-            new("Diagnostics", typeof(DiagnosticsViewModel)),
-            new("Maintenance", typeof(MaintenanceViewModel)),
-            new("Waste Ink Counter", typeof(WasteInkViewModel)),
-            new("Activity History", typeof(HistoryViewModel)),
-            new("Settings", typeof(SettingsViewModel))
+            new("Dashboard", typeof(DashboardViewModel), "Icon.Dashboard"),
+            new("Printers", typeof(PrintersViewModel), "Icon.Printer"),
+            new("Diagnostics", typeof(DiagnosticsViewModel), "Icon.Pulse"),
+            new("Maintenance", typeof(MaintenanceViewModel), "Icon.Tools"),
+            new("Waste Ink Counter", typeof(WasteInkViewModel), "Icon.Droplet"),
+            new("Activity History", typeof(HistoryViewModel), "Icon.History"),
+            new("Settings", typeof(SettingsViewModel), "Icon.Settings")
         };
 
         CurrentPage = dashboard;

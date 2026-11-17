@@ -3,10 +3,12 @@
                     xmlns:conv="clr-namespace:EpsonResetter.App.Converters">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Colors.xaml" />
+        <ResourceDictionary Source="Icons.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <BooleanToVisibilityConverter x:Key="BoolToVis" />
     <conv:StringToVisibilityConverter x:Key="StringToVis" />
+    <conv:IconKeyConverter x:Key="IconKey" />
 
     <!-- Typography -->
     <Style x:Key="Text.PageTitle" TargetType="TextBlock">
@@ -59,6 +61,41 @@
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
 
+    <!-- Page header with an icon badge -->
+    <Style x:Key="Header.Badge" TargetType="Border">
+        <Setter Property="Width" Value="38" />
+        <Setter Property="Height" Value="38" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#0B6BCB" />
+                    <GradientStop Offset="1" Color="#0856A6" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="#0B6BCB"
+                                BlurRadius="14"
+                                ShadowDepth="0"
+                                Opacity="0.35" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Header.Glyph" TargetType="Path">
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="Stretch" Value="Uniform" />
+        <Setter Property="Stroke" Value="White" />
+        <Setter Property="StrokeThickness" Value="1.8" />
+        <Setter Property="StrokeLineJoin" Value="Round" />
+        <Setter Property="StrokeStartLineCap" Value="Round" />
+        <Setter Property="StrokeEndLineCap" Value="Round" />
+    </Style>
+
     <!-- Cards -->
     <Style x:Key="Card" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource Brush.Card}" />
@@ -67,6 +104,25 @@
         <Setter Property="CornerRadius" Value="10" />
         <Setter Property="Padding" Value="20" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="#16212E" BlurRadius="16" ShadowDepth="2" Opacity="0.06" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Card.Interactive" TargetType="Border" BasedOn="{StaticResource Card}">
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleX="1" ScaleY="1" />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{StaticResource Brush.Accent}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="Badge" TargetType="Border">
@@ -94,11 +150,25 @@
                             CornerRadius="6"
                             Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="True">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Grid>
+                            <Border x:Name="glow"
+                                    CornerRadius="6"
+                                    Opacity="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Offset="0" Color="#4C9AFF" />
+                                        <GradientStop Offset="1" Color="#0B6BCB" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <ContentPresenter x:Name="content"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="bd" Property="Background" Value="{StaticResource Brush.AccentDark}" />
+                            <Setter TargetName="glow" Property="Opacity" Value="1" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="bd" Property="Opacity" Value="0.85" />
@@ -349,12 +419,12 @@
                     <Border x:Name="bd"
                             Background="Transparent"
                             CornerRadius="6"
-                            Padding="14,0"
+                            Padding="12,0"
                             Height="40">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3" />
-                                <ColumnDefinition Width="11" />
+                                <ColumnDefinition Width="30" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Border x:Name="bar"
@@ -364,6 +434,27 @@
                                     CornerRadius="2"
                                     HorizontalAlignment="Left"
                                     Background="Transparent" />
+                            <Border x:Name="iconChip"
+                                    Grid.Column="1"
+                                    Width="26"
+                                    Height="26"
+                                    CornerRadius="7"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent">
+                                <Path x:Name="glyph"
+                                      Width="15"
+                                      Height="15"
+                                      Stretch="Uniform"
+                                      Stroke="{TemplateBinding Foreground}"
+                                      StrokeThickness="1.7"
+                                      StrokeLineJoin="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Data="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource IconKey}}" />
+                            </Border>
                             <TextBlock Grid.Column="2"
                                        Text="{TemplateBinding Content}"
                                        VerticalAlignment="Center"
@@ -377,6 +468,8 @@
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="bd" Property="Background" Value="{StaticResource Brush.SidebarActive}" />
                             <Setter TargetName="bar" Property="Background" Value="{StaticResource Brush.SidebarAccent}" />
+                            <Setter TargetName="iconChip" Property="Background" Value="{StaticResource Brush.SidebarAccent}" />
+                            <Setter TargetName="glyph" Property="Stroke" Value="White" />
                             <Setter Property="Foreground" Value="{StaticResource Brush.OnDark}" />
                         </Trigger>
                     </ControlTemplate.Triggers>

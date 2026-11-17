@@ -43,15 +43,33 @@
                 <Grid>
                     <StackPanel>
                         <Button Style="{StaticResource Button.Ghost}"
-                                Content="← Back to printers"
                                 Command="{Binding BackToPrintersCommand}"
                                 HorizontalAlignment="Left"
                                 Padding="0,0,12,0"
-                                Margin="-10,0,0,0" />
-                        <TextBlock Text="{Binding Printer.Name}"
-                                   Style="{StaticResource Text.PageTitle}"
-                                   Margin="0,4,0,0" />
-                        <TextBlock Text="{Binding ConnectionText}" Style="{StaticResource Text.PageSubtitle}" />
+                                Margin="-10,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Width="14"
+                                      Height="14"
+                                      Stretch="Uniform"
+                                      Stroke="{StaticResource Brush.Accent}"
+                                      StrokeThickness="1.7"
+                                      StrokeLineJoin="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      Data="{StaticResource Icon.Back}"
+                                      VerticalAlignment="Center" />
+                                <TextBlock Text="Back to printers" Margin="7,0,0,0" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                            <Border Style="{StaticResource Header.Badge}" Margin="0,0,12,0">
+                                <Path Style="{StaticResource Header.Glyph}" Data="{StaticResource Icon.Printer}" />
+                            </Border>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Printer.Name}" Style="{StaticResource Text.PageTitle}" />
+                                <TextBlock Text="{Binding ConnectionText}" Style="{StaticResource Text.PageSubtitle}" />
+                            </StackPanel>
+                        </StackPanel>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">

@@ -9,3 +9,5 @@ TestResults/
 *.db-shm
 *.db-wal
 *.log
+dist/
+*.exe

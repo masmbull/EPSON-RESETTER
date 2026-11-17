@@ -14,10 +14,15 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <StackPanel>
-                <TextBlock Text="Diagnostics" Style="{StaticResource Text.PageTitle}" />
-                <TextBlock Text="Read-only checks of the Windows print path and, for network printers, the printer itself."
-                           Style="{StaticResource Text.PageSubtitle}" />
+            <StackPanel Orientation="Horizontal">
+                <Border Style="{StaticResource Header.Badge}" Margin="0,0,12,0">
+                    <Path Style="{StaticResource Header.Glyph}" Data="{StaticResource Icon.Pulse}" />
+                </Border>
+                <StackPanel>
+                    <TextBlock Text="Diagnostics" Style="{StaticResource Text.PageTitle}" />
+                    <TextBlock Text="Read-only checks of the Windows print path and, for network printers, the printer itself."
+                               Style="{StaticResource Text.PageSubtitle}" />
+                </StackPanel>
             </StackPanel>
 
             <Button Style="{StaticResource Button.Primary}"

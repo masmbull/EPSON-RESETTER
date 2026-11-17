@@ -14,10 +14,15 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <StackPanel>
-                <TextBlock Text="Activity History" Style="{StaticResource Text.PageTitle}" />
-                <TextBlock Text="Every meaningful action recorded locally, including diagnostics, Web Admin, maintenance and eligibility checks."
-                           Style="{StaticResource Text.PageSubtitle}" />
+            <StackPanel Orientation="Horizontal">
+                <Border Style="{StaticResource Header.Badge}" Margin="0,0,12,0">
+                    <Path Style="{StaticResource Header.Glyph}" Data="{StaticResource Icon.History}" />
+                </Border>
+                <StackPanel>
+                    <TextBlock Text="Activity History" Style="{StaticResource Text.PageTitle}" />
+                    <TextBlock Text="Every meaningful action recorded locally, including diagnostics, Web Admin, maintenance and eligibility checks."
+                               Style="{StaticResource Text.PageSubtitle}" />
+                </StackPanel>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">

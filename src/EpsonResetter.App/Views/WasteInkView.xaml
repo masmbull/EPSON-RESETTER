@@ -15,10 +15,15 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <StackPanel>
-                <TextBlock Text="Waste Ink Counter" Style="{StaticResource Text.PageTitle}" />
-                <TextBlock Text="Model-aware counter information and reset eligibility checks. Values are shown only when a verified, permitted method exists."
-                           Style="{StaticResource Text.PageSubtitle}" />
+            <StackPanel Orientation="Horizontal">
+                <Border Style="{StaticResource Header.Badge}" Margin="0,0,12,0">
+                    <Path Style="{StaticResource Header.Glyph}" Data="{StaticResource Icon.Droplet}" />
+                </Border>
+                <StackPanel>
+                    <TextBlock Text="Waste Ink Counter" Style="{StaticResource Text.PageTitle}" />
+                    <TextBlock Text="Model-aware counter information and reset eligibility checks. Values are shown only when a verified, permitted method exists."
+                               Style="{StaticResource Text.PageSubtitle}" />
+                </StackPanel>
             </StackPanel>
 
             <Border Style="{StaticResource Badge}" HorizontalAlignment="Right" VerticalAlignment="Top">

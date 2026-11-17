@@ -13,10 +13,15 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <StackPanel>
-                <TextBlock Text="Printers" Style="{StaticResource Text.PageTitle}" />
-                <TextBlock Text="Printers detected through the Windows print subsystem. Every value comes from the spooler."
-                           Style="{StaticResource Text.PageSubtitle}" />
+            <StackPanel Orientation="Horizontal">
+                <Border Style="{StaticResource Header.Badge}" Margin="0,0,12,0">
+                    <Path Style="{StaticResource Header.Glyph}" Data="{StaticResource Icon.Printer}" />
+                </Border>
+                <StackPanel>
+                    <TextBlock Text="Printers" Style="{StaticResource Text.PageTitle}" />
+                    <TextBlock Text="Printers detected through the Windows print subsystem. Every value comes from the spooler."
+                               Style="{StaticResource Text.PageSubtitle}" />
+                </StackPanel>
             </StackPanel>
 
             <Button Style="{StaticResource Button.Primary}"

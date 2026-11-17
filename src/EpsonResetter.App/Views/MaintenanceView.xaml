@@ -15,10 +15,15 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <StackPanel>
-                <TextBlock Text="Maintenance" Style="{StaticResource Text.PageTitle}" />
-                <TextBlock Text="Standard Windows print-system actions for the selected printer."
-                           Style="{StaticResource Text.PageSubtitle}" />
+            <StackPanel Orientation="Horizontal">
+                <Border Style="{StaticResource Header.Badge}" Margin="0,0,12,0">
+                    <Path Style="{StaticResource Header.Glyph}" Data="{StaticResource Icon.Tools}" />
+                </Border>
+                <StackPanel>
+                    <TextBlock Text="Maintenance" Style="{StaticResource Text.PageTitle}" />
+                    <TextBlock Text="Standard Windows print-system actions for the selected printer."
+                               Style="{StaticResource Text.PageSubtitle}" />
+                </StackPanel>
             </StackPanel>
 
             <Border Style="{StaticResource Badge}" HorizontalAlignment="Right" VerticalAlignment="Top">

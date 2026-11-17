@@ -23,11 +23,26 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0">
-                    <TextBlock Text="EPSON" FontSize="21" FontWeight="Bold" Foreground="White" />
-                    <TextBlock Text="R E S E T T E R"
-                               FontSize="10"
-                               Foreground="{StaticResource Brush.SidebarMuted}"
-                               Margin="1,2,0,0" />
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="34"
+                                Height="34"
+                                CornerRadius="9"
+                                Background="{StaticResource Brush.SidebarAccent}"
+                                VerticalAlignment="Center">
+                            <Path Width="19"
+                                  Height="19"
+                                  Stretch="Uniform"
+                                  Fill="White"
+                                  Data="{StaticResource Icon.Box}" />
+                        </Border>
+                        <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="EPSON" FontSize="17" FontWeight="Bold" Foreground="White" />
+                            <TextBlock Text="R E S E T T E R"
+                                       FontSize="8.5"
+                                       Foreground="{StaticResource Brush.SidebarMuted}"
+                                       Margin="0,1,0,0" />
+                        </StackPanel>
+                    </StackPanel>
                 </StackPanel>
 
                 <Border Grid.Row="1" Height="1" Background="#1F3850" Margin="0,18,0,14" />
@@ -37,6 +52,7 @@
                         <DataTemplate>
                             <RadioButton GroupName="Navigation"
                                          Style="{StaticResource Nav.Radio}"
+                                         Tag="{Binding IconKey}"
                                          Content="{Binding Title}"
                                          IsChecked="{Binding IsSelected, Mode=TwoWay}"
                                          Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
@@ -82,17 +98,52 @@
                     </StackPanel>
 
                     <Button Style="{StaticResource Button.Secondary}"
-                            Content="Rescan printers"
                             Command="{Binding RescanCommand}"
                             HorizontalAlignment="Right"
-                            VerticalAlignment="Center" />
+                            VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Width="14"
+                                  Height="14"
+                                  Stretch="Uniform"
+                                  Stroke="{StaticResource Brush.Accent}"
+                                  StrokeThickness="1.7"
+                                  StrokeLineJoin="Round"
+                                  StrokeStartLineCap="Round"
+                                  StrokeEndLineCap="Round"
+                                  Data="{StaticResource Icon.Refresh}"
+                                  VerticalAlignment="Center" />
+                            <TextBlock Text="Rescan printers" Margin="7,0,0,0" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
                 </Grid>
             </Border>
 
-            <ContentControl Grid.Row="1" Content="{Binding CurrentPage}" />
+            <ContentControl x:Name="PageHost" Grid.Row="1" Content="{Binding CurrentPage}">
+                <ContentControl.RenderTransform>
+                    <TranslateTransform x:Name="PageTransform" />
+                </ContentControl.RenderTransform>
+            </ContentControl>
 
             <Border Grid.Row="2" Background="{StaticResource Brush.Sidebar}">
                 <Grid Margin="26,0">
+                    <Border x:Name="ProgressTrack"
+                            Height="2"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Stretch"
+                            Opacity="0"
+                            Visibility="Collapsed">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <LinearGradientBrush.RelativeTransform>
+                                    <TranslateTransform x:Name="ProgressSlide" />
+                                </LinearGradientBrush.RelativeTransform>
+                                <GradientStop Offset="0" Color="#0E2C4D" />
+                                <GradientStop Offset="0.5" Color="#4C9AFF" />
+                                <GradientStop Offset="1" Color="#0E2C4D" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+
                     <TextBlock Text="{Binding State.StatusMessage}"
                                Foreground="#8FA9C2"
                                FontSize="11.5"
@@ -104,7 +155,7 @@
                                FontWeight="SemiBold"
                                HorizontalAlignment="Right"
                                VerticalAlignment="Center"
-                               Visibility="{Binding CurrentPage.IsBusy, Converter={StaticResource BoolToVis}}" />
+                               Visibility="{Binding State.IsScanning, Converter={StaticResource BoolToVis}}" />
                 </Grid>
             </Border>
         </Grid>
