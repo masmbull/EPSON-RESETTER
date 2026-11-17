@@ -7,6 +7,9 @@
         Background="{StaticResource Brush.PageBackground}"
         FontFamily="Segoe UI"
         UseLayoutRounding="True">
+    <Window.InputBindings>
+        <KeyBinding Key="R" Modifiers="Control" Command="{Binding RescanCommand}" />
+    </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="236" />

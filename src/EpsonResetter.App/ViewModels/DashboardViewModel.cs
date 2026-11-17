@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -20,6 +21,9 @@ public sealed partial class DashboardViewModel : ViewModelBase, INavigationPage
         _navigate = navigate;
 
         state.PropertyChanged += OnStatePropertyChanged;
+        state.RecentActivity.CollectionChanged += OnRecentActivityChanged;
+
+        LoadRecent();
     }
 
     public string Title => "Dashboard";
@@ -73,6 +77,29 @@ public sealed partial class DashboardViewModel : ViewModelBase, INavigationPage
         OnPropertyChanged(nameof(OfflinePrinters));
         OnPropertyChanged(nameof(HasPrinters));
         OnPropertyChanged(nameof(LastScanText));
+    }
+
+    private void OnRecentActivityChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems is not null)
+        {
+            foreach (ActivityRecord record in e.NewItems)
+            {
+                RecentActivity.Insert(0, record);
+            }
+
+            while (RecentActivity.Count > 6)
+            {
+                RecentActivity.RemoveAt(RecentActivity.Count - 1);
+            }
+
+            HasActivity = RecentActivity.Count > 0;
+            OnPropertyChanged(nameof(HasActivity));
+        }
+        else if (e.Action == NotifyCollectionChangedAction.Reset)
+        {
+            LoadRecent();
+        }
     }
 
     private void LoadRecent()
