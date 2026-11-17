@@ -12,33 +12,40 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <StackPanel Orientation="Horizontal">
-                <Border Style="{StaticResource Header.Badge}" Margin="0,0,12,0">
-                    <Path Style="{StaticResource Header.Glyph}" Data="{StaticResource Icon.Printer}" />
-                </Border>
-                <StackPanel>
-                    <TextBlock Text="Printers" Style="{StaticResource Text.PageTitle}" />
-                    <TextBlock Text="Printers detected through the Windows print subsystem. Every value comes from the spooler."
-                               Style="{StaticResource Text.PageSubtitle}" />
-                </StackPanel>
+        <!-- HEADER -->
+        <Grid Grid.Row="0" Style="{StaticResource Section.Header}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource Section.Icon}">
+                <Path Style="{StaticResource Section.Glyph}" Data="{StaticResource Icon.Printer}" />
+            </Border>
+            <StackPanel Grid.Column="1" Margin="16,0,0,0">
+                <TextBlock Text="Printers" Style="{StaticResource Section.Title}" />
+                <TextBlock Text="Printers detected through the Windows print subsystem. Every value comes from the spooler."
+                           Style="{StaticResource Section.Subtitle}" />
             </StackPanel>
 
-            <Button Style="{StaticResource Button.Primary}"
+            <Button Grid.Column="1"
+                    Style="{StaticResource Button.Primary}"
                     Content="Rescan"
                     Command="{Binding RefreshCommand}"
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Top" />
+                    VerticalAlignment="Bottom"
+                    Margin="0,-4,0,0" />
         </Grid>
 
+        <!-- FILTER BAR -->
         <Border Grid.Row="1"
                 Style="{StaticResource Card}"
                 Padding="14"
-                Margin="0,18,0,0">
+                Margin="0,0,0,16">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="280" />
-                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="160" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
@@ -50,7 +57,7 @@
                          VerticalContentAlignment="Center" />
 
                 <ComboBox Grid.Column="1"
-                          Margin="10,0,0,0"
+                          Margin="12,0,0,0"
                           ItemsSource="{Binding ConnectionOptions}"
                           SelectedItem="{Binding ConnectionFilter}"
                           VerticalContentAlignment="Center"
@@ -59,7 +66,7 @@
                 <CheckBox Grid.Column="2"
                           Content="Epson only"
                           IsChecked="{Binding OnlyEpson}"
-                          Margin="14,0,0,0"
+                          Margin="12,0,0,0"
                           VerticalAlignment="Center" />
 
                 <Button Grid.Column="3"
@@ -73,12 +80,13 @@
                            Text="{Binding ResultSummary}"
                            Style="{StaticResource Text.Hint}"
                            VerticalAlignment="Center"
-                           Margin="14,0,0,0"
+                           Margin="12,0,0,0"
                            TextWrapping="NoWrap" />
             </Grid>
         </Border>
 
-        <Grid Grid.Row="2" Margin="0,14,0,0">
+        <!-- LIST / EMPTY -->
+        <Grid Grid.Row="2" Margin="0,0,0,0">
             <ListView x:Name="PrinterList"
                       Style="{StaticResource List.Devices}"
                       ItemsSource="{Binding FilteredPrinters}"
@@ -94,9 +102,10 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="Printer" Width="220" DisplayMemberBinding="{Binding Name}" />
-                        <GridViewColumn Header="Model" Width="120" DisplayMemberBinding="{Binding ModelName}" />
+                        <GridViewColumn Header="Model" Width="140" DisplayMemberBinding="{Binding ModelName}" />
+                        <GridViewColumn Header="Manufacturer" Width="110" DisplayMemberBinding="{Binding Manufacturer}" />
                         <GridViewColumn Header="Connection" Width="150" DisplayMemberBinding="{Binding ConnectionDisplay}" />
-                        <GridViewColumn Header="Driver" Width="190" DisplayMemberBinding="{Binding DriverName}" />
+                        <GridViewColumn Header="Driver" Width="200" DisplayMemberBinding="{Binding DriverName}" />
                         <GridViewColumn Header="Default" Width="64">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -107,7 +116,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Actions" Width="150">
+                        <GridViewColumn Header="Actions" Width="140">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Style="{StaticResource Button.Small}"
@@ -122,12 +131,12 @@
                 </ListView.View>
             </ListView>
 
-            <Border Width="520"
+            <Border Width="460"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Padding="28">
                 <Border.Style>
-                    <Style TargetType="Border" BasedOn="{StaticResource Card}">
+                    <Style TargetType="Border" BasedOn="{StaticResource Empty.State}">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding HasMatches}" Value="False">
@@ -137,14 +146,10 @@
                     </Style>
                 </Border.Style>
                 <StackPanel>
-                    <TextBlock Text="No printers to show"
-                               FontSize="15"
-                               FontWeight="SemiBold"
-                               HorizontalAlignment="Center" />
                     <TextBlock Text="{Binding EmptyMessage}"
-                               Style="{StaticResource Text.Hint}"
-                               TextAlignment="Center"
-                               Margin="0,8,0,0" />
+                               Style="{StaticResource Empty.StateTitle}"
+                               TextWrapping="Wrap"
+                               TextAlignment="Center" />
                     <Button Style="{StaticResource Button.Secondary}"
                             Content="Rescan"
                             Command="{Binding RefreshCommand}"

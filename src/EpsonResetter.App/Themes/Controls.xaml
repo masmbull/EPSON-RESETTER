@@ -7,6 +7,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVis" />
     <conv:StringToVisibilityConverter x:Key="StringToVis" />
     <conv:IconKeyConverter x:Key="IconKey" />
 
@@ -495,5 +496,124 @@
                 <Setter Property="Foreground" Value="{StaticResource Brush.Warning}" />
             </DataTrigger>
         </Style.Triggers>
+    </Style>
+
+    <!-- Spacing scale -->
+    <Thickness x:Key="Space.XS">4</Thickness>
+    <Thickness x:Key="Space.SM">8</Thickness>
+    <Thickness x:Key="Space.MD">12</Thickness>
+    <Thickness x:Key="Space.LG">16</Thickness>
+    <Thickness x:Key="Space.XL">24</Thickness>
+    <Thickness x:Key="Space.XXL">32</Thickness>
+    <Thickness x:Key="Space.Section">0,0,0,20</Thickness>
+
+    <!-- Layout -->
+    <GridLength x:Key="Layout.InfoLabelWidth">140</GridLength>
+
+    <!-- Section header: icon badge + title + subtitle -->
+    <Style x:Key="Section.Header" TargetType="Grid">
+        <Setter Property="Margin" Value="0,0,0,16" />
+    </Style>
+
+    <Style x:Key="Section.Icon" TargetType="Border">
+        <Setter Property="Width" Value="38" />
+        <Setter Property="Height" Value="38" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#0B6BCB" />
+                    <GradientStop Offset="1" Color="#0856A6" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="#0B6BCB"
+                                BlurRadius="14"
+                                ShadowDepth="0"
+                                Opacity="0.35" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Section.Glyph" TargetType="Path">
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="Stretch" Value="Uniform" />
+        <Setter Property="Stroke" Value="White" />
+        <Setter Property="StrokeThickness" Value="1.8" />
+        <Setter Property="StrokeLineJoin" Value="Round" />
+        <Setter Property="StrokeStartLineCap" Value="Round" />
+        <Setter Property="StrokeEndLineCap" Value="Round" />
+    </Style>
+
+    <Style x:Key="Section.Title" TargetType="TextBlock" BasedOn="{StaticResource Text.PageTitle}">
+        <Setter Property="Margin" Value="0,0,0,4" />
+    </Style>
+
+    <Style x:Key="Section.Subtitle" TargetType="TextBlock" BasedOn="{StaticResource Text.PageSubtitle}">
+        <Setter Property="Margin" Value="0,0,0,0" />
+    </Style>
+
+    <!-- Card with section header -->
+    <Style x:Key="Card.Section" TargetType="Border" BasedOn="{StaticResource Card}">
+        <Setter Property="Margin" Value="{StaticResource Space.Section}" />
+    </Style>
+
+    <!-- Card header: label + optional action button -->
+    <Style x:Key="Card.Header" TargetType="Grid">
+        <Setter Property="Margin" Value="0,0,0,12" />
+    </Style>
+
+    <Style x:Key="Card.HeaderLabel" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource Brush.TextMuted}" />
+        <Setter Property="Margin" Value="0,0,0,4" />
+    </Style>
+
+    <!-- Status chip -->
+    <Style x:Key="Status.Chip" TargetType="Border" BasedOn="{StaticResource Badge}">
+        <Setter Property="Padding" Value="8,3" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <Style x:Key="Status.ChipText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <!-- Empty state -->
+    <Style x:Key="Empty.State" TargetType="Border" BasedOn="{StaticResource Card}">
+        <Setter Property="Padding" Value="32" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Width" Value="460" />
+    </Style>
+
+    <Style x:Key="Empty.StateTitle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource Brush.TextPrimary}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,0,0,8" />
+    </Style>
+
+    <Style x:Key="Empty.StateHint" TargetType="TextBlock" BasedOn="{StaticResource Text.Hint}">
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0" />
+    </Style>
+
+    <!-- Info row: label + value -->
+    <Style x:Key="Info.Row" TargetType="Grid">
+        <Setter Property="Margin" Value="0,0,0,10" />
+    </Style>
+
+    <Style x:Key="Info.Label" TargetType="TextBlock" BasedOn="{StaticResource Text.Label}">
+        <Setter Property="Width" Value="{StaticResource Layout.InfoLabelWidth}" />
     </Style>
 </ResourceDictionary>

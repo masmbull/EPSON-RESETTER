@@ -8,37 +8,45 @@
     <Grid Margin="26,22,26,26">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <StackPanel Orientation="Horizontal">
-                <Border Style="{StaticResource Header.Badge}" Margin="0,0,12,0">
-                    <Path Style="{StaticResource Header.Glyph}" Data="{StaticResource Icon.Settings}" />
-                </Border>
-                <StackPanel>
-                    <TextBlock Text="Settings" Style="{StaticResource Text.PageTitle}" />
-                    <TextBlock Text="Web Admin defaults, network timeouts and local storage. Settings are stored in the local SQLite database."
-                               Style="{StaticResource Text.PageSubtitle}" />
-                </StackPanel>
+        <!-- HEADER -->
+        <Grid Grid.Row="0" Style="{StaticResource Section.Header}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource Section.Icon}">
+                <Path Style="{StaticResource Section.Glyph}" Data="{StaticResource Icon.Settings}" />
+            </Border>
+            <StackPanel Grid.Column="1" Margin="16,0,0,0">
+                <TextBlock Text="Settings" Style="{StaticResource Section.Title}" />
+                <TextBlock Text="Web Admin defaults, network timeouts and local storage. Settings are stored in the local SQLite database."
+                           Style="{StaticResource Section.Subtitle}" />
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="2" Margin="0,18,0,0">
+        <!-- MAIN CONTENT -->
+        <Grid Grid.Row="1" Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="620" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" Style="{StaticResource Card}" Margin="0,0,14,0" VerticalAlignment="Top">
+            <!-- WEB ADMIN AND NETWORK -->
+            <Border Grid.Column="0"
+                    Style="{StaticResource Card.Section}"
+                    Margin="0,0,14,0"
+                    VerticalAlignment="Top">
                 <StackPanel>
-                    <TextBlock Text="WEB ADMIN AND NETWORK" Style="{StaticResource Text.SectionHeader}" />
+                    <TextBlock Text="Web Admin and network" Style="{StaticResource Card.HeaderLabel}" />
 
-                    <Grid Margin="0,14,0,0">
+                    <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="220" />
+                            <ColumnDefinition Width="200" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
@@ -74,17 +82,19 @@
 
                     <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,18,0,14" />
 
-                    <TextBlock Text="DEFAULTS" Style="{StaticResource Text.SectionHeader}" />
+                    <TextBlock Text="Defaults" Style="{StaticResource Card.HeaderLabel}" />
 
                     <CheckBox Content="Show only Epson printers by default"
                               IsChecked="{Binding ShowOnlyEpson}"
-                              Margin="0,12,0,0" />
+                              Margin="0,10,0,0" />
                     <CheckBox Content="Ask before opening a printer Web Admin page"
-                              IsChecked="{Binding ConfirmBeforeOpening}" />
+                              IsChecked="{Binding ConfirmBeforeOpening}"
+                              Margin="0,10,0,0" />
 
                     <TextBlock Text="Printer administrator credentials are never stored. URLs containing credentials are rejected."
                                Style="{StaticResource Text.Hint}"
-                               Margin="0,14,0,0" />
+                               Margin="0,14,0,0"
+                               TextWrapping="Wrap" />
 
                     <ItemsControl ItemsSource="{Binding ValidationErrors}" Margin="0,12,0,0">
                         <ItemsControl.ItemTemplate>
@@ -115,9 +125,12 @@
                 </StackPanel>
             </Border>
 
-            <Border Grid.Column="1" Style="{StaticResource Card}" VerticalAlignment="Top">
+            <!-- LOCAL STORAGE -->
+            <Border Grid.Column="1"
+                    Style="{StaticResource Card.Section}"
+                    VerticalAlignment="Top">
                 <StackPanel>
-                    <TextBlock Text="LOCAL STORAGE" Style="{StaticResource Text.SectionHeader}" />
+                    <TextBlock Text="Local storage" Style="{StaticResource Card.HeaderLabel}" />
 
                     <TextBlock Text="Database" Style="{StaticResource Text.Label}" Margin="0,14,0,0" />
                     <TextBlock Text="{Binding DatabasePathText}" Style="{StaticResource Text.Mono}" Margin="0,3,0,0" />
@@ -127,17 +140,19 @@
 
                     <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,18,0,14" />
 
-                    <TextBlock Text="COMPATIBILITY REGISTRY" Style="{StaticResource Text.SectionHeader}" />
+                    <TextBlock Text="Compatibility registry" Style="{StaticResource Card.HeaderLabel}" />
                     <TextBlock Text="{Binding RegistryText}" Style="{StaticResource Text.Value}" Margin="0,8,0,0" />
 
                     <TextBlock Text="Entries are only marked as supported when a documented, vendor-authorised method has been verified for the exact model. No reset method is currently enabled."
                                Style="{StaticResource Text.Hint}"
-                               Margin="0,10,0,0" />
+                               Margin="0,10,0,0"
+                               TextWrapping="Wrap" />
                 </StackPanel>
             </Border>
         </Grid>
 
-        <TextBlock Grid.Row="3"
+        <!-- ERROR -->
+        <TextBlock Grid.Row="2"
                    Text="{Binding ErrorMessage}"
                    Foreground="{StaticResource Brush.Danger}"
                    FontSize="12.5"

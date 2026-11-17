@@ -134,7 +134,7 @@
                             VerticalAlignment="Top"
                             HorizontalAlignment="Stretch"
                             Opacity="0"
-                            Visibility="Collapsed">
+                            Visibility="{Binding State.IsScanning, Converter={StaticResource BoolToVis}}">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                 <LinearGradientBrush.RelativeTransform>
