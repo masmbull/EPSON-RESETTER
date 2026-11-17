@@ -18,6 +18,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <Border Grid.Column="0" Style="{StaticResource Section.Icon}">
@@ -29,7 +30,7 @@
                            Style="{StaticResource Section.Subtitle}" />
             </StackPanel>
 
-            <Border Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,-4,0,0">
+            <Border Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Border.Style>
                     <Style TargetType="Border" BasedOn="{StaticResource Badge}">
                         <Setter Property="Visibility" Value="Collapsed" />
@@ -47,8 +48,17 @@
         </Grid>
 
         <!-- ACTION CARDS -->
-        <UniformGrid Grid.Row="1" Columns="2" Margin="0,0,0,16">
-            <Border Style="{StaticResource Card.Section}" Margin="0,0,8,0">
+        <Grid Grid.Row="1" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Column="0" Grid.Row="0" Style="{StaticResource Card.Section}" Margin="0,0,8,0">
                 <StackPanel>
                     <TextBlock Text="Open print queue" Style="{StaticResource Card.HeaderLabel}" />
                     <TextBlock Text="Shows the Windows print queue for this printer, including pending documents and the pause state."
@@ -62,7 +72,7 @@
                 </StackPanel>
             </Border>
 
-            <Border Style="{StaticResource Card.Section}" Margin="8,0,0,0">
+            <Border Grid.Column="1" Grid.Row="0" Style="{StaticResource Card.Section}" Margin="8,0,0,0">
                 <StackPanel>
                     <TextBlock Text="Printer properties" Style="{StaticResource Card.HeaderLabel}" />
                     <TextBlock Text="Opens the Windows printer properties dialog with the driver, port, sharing and advanced settings."
@@ -76,7 +86,7 @@
                 </StackPanel>
             </Border>
 
-            <Border Style="{StaticResource Card.Section}" Margin="0,0,8,0">
+            <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource Card.Section}" Margin="0,16,8,0">
                 <StackPanel>
                     <TextBlock Text="Print a test page" Style="{StaticResource Card.HeaderLabel}" />
                     <TextBlock Text="Sends the standard Windows test page to this printer. Use it to confirm the physical print path."
@@ -90,7 +100,7 @@
                 </StackPanel>
             </Border>
 
-            <Border Style="{StaticResource Card.Section}" Margin="8,0,0,0">
+            <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource Card.Section}" Margin="8,16,0,0">
                 <StackPanel>
                     <TextBlock Text="Open Web Admin" Style="{StaticResource Card.HeaderLabel}" />
                     <TextBlock Text="Opens the printer's built-in administration page in the default browser using the detected address."
@@ -103,7 +113,7 @@
                             HorizontalAlignment="Left" />
                 </StackPanel>
             </Border>
-        </UniformGrid>
+        </Grid>
 
         <!-- MESSAGE -->
         <Border Grid.Row="2"

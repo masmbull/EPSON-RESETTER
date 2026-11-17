@@ -18,6 +18,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <Border Grid.Column="0" Style="{StaticResource Section.Icon}">
@@ -29,11 +30,10 @@
                            Style="{StaticResource Section.Subtitle}" />
             </StackPanel>
 
-            <StackPanel Grid.Column="1"
+            <StackPanel Grid.Column="2"
                         HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        Orientation="Horizontal"
-                        Margin="0,-4,0,0">
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
                 <Button Style="{StaticResource Button.Secondary}"
                         Content="Reload"
                         Command="{Binding LoadCommand}"
