@@ -24,7 +24,6 @@
     <Thickness x:Key="Space.Section">0,0,0,20</Thickness>
 
     <!-- Layout -->
-    <GridLength x:Key="Layout.InfoLabelWidth">140</GridLength>
 
     <!-- Typography -->
     <Style x:Key="Text.PageTitle" TargetType="TextBlock">
@@ -174,7 +173,7 @@
     </Style>
 
     <Style x:Key="Info.Label" TargetType="TextBlock" BasedOn="{StaticResource Text.Label}">
-        <Setter Property="Width" Value="{StaticResource Layout.InfoLabelWidth}" />
+        <Setter Property="Width" Value="140" />
     </Style>
 
     <!-- Buttons -->

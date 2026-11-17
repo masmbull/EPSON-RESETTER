@@ -133,8 +133,8 @@
                             <TextBlock Text="Printer information" Style="{StaticResource Card.HeaderLabel}" />
                             <Grid Margin="0,4,0,16">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{StaticResource Layout.InfoLabelWidth}" />
-                                    <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="140" />
+                                <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
