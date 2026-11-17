@@ -26,15 +26,18 @@ public delegate Task NavigateHandler(Type pageType, object? parameter);
 
 public sealed partial class NavigationItem : ObservableObject
 {
-    public NavigationItem(string title, Type viewModelType)
+    public NavigationItem(string title, Type viewModelType, string iconKey)
     {
         Title = title;
         ViewModelType = viewModelType;
+        IconKey = iconKey;
     }
 
     public string Title { get; }
 
     public Type ViewModelType { get; }
+
+    public string IconKey { get; }
 
     [ObservableProperty]
     private bool _isSelected;

@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -8,10 +9,12 @@ using Serilog;
 
 namespace EpsonResetter.App.ViewModels;
 
-public sealed partial class ShellViewModel : ViewModelBase
+public sealed partial class ShellViewModel : ViewModelBase, IDisposable
 {
     private readonly Dictionary<Type, INavigationPage> _pages;
     private readonly DispatcherTimer _statusTimer;
+    private readonly SemaphoreSlim _navigationLock = new(1, 1);
+    private bool _disposed;
 
     public ShellViewModel(AppServices services, IDialogService dialogs)
     {
@@ -24,7 +27,7 @@ public sealed partial class ShellViewModel : ViewModelBase
         var printers = new PrintersViewModel(services, State, printer => _ = ShowPrinterAsync(printer));
         var details = new PrinterDetailsViewModel(services, State, dialogs, NavigateToAsync);
         var diagnostics = new DiagnosticsViewModel(services, State);
-        var maintenance = new MaintenanceViewModel(services, State);
+        var maintenance = new MaintenanceViewModel(services, State, dialogs);
         var wasteInk = new WasteInkViewModel(services, State);
         var history = new HistoryViewModel(services, State, dialogs);
         var settings = new SettingsViewModel(services, State);
@@ -43,13 +46,13 @@ public sealed partial class ShellViewModel : ViewModelBase
 
         Navigation = new ObservableCollection<NavigationItem>
         {
-            new("Dashboard", typeof(DashboardViewModel)),
-            new("Printers", typeof(PrintersViewModel)),
-            new("Diagnostics", typeof(DiagnosticsViewModel)),
-            new("Maintenance", typeof(MaintenanceViewModel)),
-            new("Waste Ink Counter", typeof(WasteInkViewModel)),
-            new("Activity History", typeof(HistoryViewModel)),
-            new("Settings", typeof(SettingsViewModel))
+            new("Dashboard", typeof(DashboardViewModel), "Icon.Dashboard"),
+            new("Printers", typeof(PrintersViewModel), "Icon.Printer"),
+            new("Diagnostics", typeof(DiagnosticsViewModel), "Icon.Pulse"),
+            new("Maintenance", typeof(MaintenanceViewModel), "Icon.Tools"),
+            new("Waste Ink Counter", typeof(WasteInkViewModel), "Icon.Droplet"),
+            new("Activity History", typeof(HistoryViewModel), "Icon.History"),
+            new("Settings", typeof(SettingsViewModel), "Icon.Settings")
         };
 
         CurrentPage = dashboard;
@@ -59,6 +62,19 @@ public sealed partial class ShellViewModel : ViewModelBase
         _statusTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(45) };
         _statusTimer.Tick += OnStatusTimerTick;
         _statusTimer.Start();
+    }
+
+    public void Dispose()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _disposed = true;
+        _statusTimer.Stop();
+        _statusTimer.Tick -= OnStatusTimerTick;
+        _navigationLock.Dispose();
     }
 
     private async void OnStatusTimerTick(object? sender, EventArgs e)
@@ -110,19 +126,27 @@ public sealed partial class ShellViewModel : ViewModelBase
             return;
         }
 
+        await _navigationLock.WaitAsync().ConfigureAwait(false);
         try
         {
-            await page.ActivateAsync(parameter).ConfigureAwait(true);
-        }
-        catch (Exception exception)
-        {
-            Log.Error(exception, "Activation of {Page} failed.", pageType.Name);
-            State.StatusMessage = $"Could not open {page.Title}: {exception.Message}";
-        }
+            try
+            {
+                await page.ActivateAsync(parameter).ConfigureAwait(true);
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception, "Activation of {Page} failed.", pageType.Name);
+                State.StatusMessage = $"Could not open {page.Title}: {exception.Message}";
+            }
 
-        CurrentPage = page;
-        PageTitle = page.Title;
-        SelectNavigation(pageType);
+            CurrentPage = page;
+            PageTitle = page.Title;
+            SelectNavigation(pageType);
+        }
+        finally
+        {
+            _navigationLock.Release();
+        }
     }
 
     private void SelectNavigation(Type pageType)

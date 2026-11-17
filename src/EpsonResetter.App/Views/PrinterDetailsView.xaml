@@ -5,68 +5,95 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              d:DesignHeight="820" d:DesignWidth="1040">
-    <Grid>
-        <Border Width="520"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Padding="28">
+    <Grid Margin="26,22,26,26">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- EMPTY STATE -->
+        <Border Grid.Row="1">
             <Border.Style>
-                <Style TargetType="Border" BasedOn="{StaticResource Card}">
-                    <Setter Property="Visibility" Value="Visible" />
+                <Style TargetType="Border" BasedOn="{StaticResource Empty.State}">
+                    <Setter Property="Visibility" Value="Collapsed" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding HasPrinter}" Value="True">
-                            <Setter Property="Visibility" Value="Collapsed" />
+                        <DataTrigger Binding="{Binding HasPrinter}" Value="False">
+                            <Setter Property="Visibility" Value="Visible" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </Border.Style>
             <StackPanel>
                 <TextBlock Text="No printer selected"
-                           FontSize="15"
-                           FontWeight="SemiBold"
-                           HorizontalAlignment="Center" />
+                           Style="{StaticResource Empty.StateTitle}" />
                 <TextBlock Text="Select a printer from the printer list to see its information, Web Admin address and diagnostics."
-                           Style="{StaticResource Text.Hint}"
-                           TextAlignment="Center"
-                           Margin="0,8,0,0" />
+                           Style="{StaticResource Empty.StateHint}"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,16" />
                 <Button Style="{StaticResource Button.Secondary}"
                         Content="Open printer list"
                         Command="{Binding BackToPrintersCommand}"
-                        HorizontalAlignment="Center"
-                        Margin="0,16,0,0" />
+                        HorizontalAlignment="Center" />
             </StackPanel>
         </Border>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto"
+        <!-- CONTENT -->
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
                       Visibility="{Binding HasPrinter, Converter={StaticResource BoolToVis}}">
-            <StackPanel Margin="26,22,26,26">
-                <Grid>
-                    <StackPanel>
-                        <Button Style="{StaticResource Button.Ghost}"
-                                Content="← Back to printers"
-                                Command="{Binding BackToPrintersCommand}"
-                                HorizontalAlignment="Left"
-                                Padding="0,0,12,0"
-                                Margin="-10,0,0,0" />
-                        <TextBlock Text="{Binding Printer.Name}"
-                                   Style="{StaticResource Text.PageTitle}"
-                                   Margin="0,4,0,0" />
-                        <TextBlock Text="{Binding ConnectionText}" Style="{StaticResource Text.PageSubtitle}" />
+            <StackPanel>
+
+                <!-- HEADER -->
+                <Grid Style="{StaticResource Section.Header}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            Style="{StaticResource Button.Ghost}"
+                            Command="{Binding BackToPrintersCommand}"
+                            HorizontalAlignment="Left"
+                            Padding="10,6">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Width="14"
+                                  Height="14"
+                                  Stretch="Uniform"
+                                  Stroke="{StaticResource Brush.Accent}"
+                                  StrokeThickness="1.7"
+                                  StrokeLineJoin="Round"
+                                  StrokeStartLineCap="Round"
+                                  StrokeEndLineCap="Round"
+                                  Data="{StaticResource Icon.Back}"
+                                  VerticalAlignment="Center" />
+                            <TextBlock Text="Back to printers" Margin="8,0,0,0" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                    <Border Grid.Column="1" Style="{StaticResource Section.Icon}" Margin="0,0,12,0">
+                        <Path Style="{StaticResource Section.Glyph}" Data="{StaticResource Icon.Printer}" />
+                    </Border>
+
+                    <StackPanel Grid.Column="2" Margin="0,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Printer.Name}" Style="{StaticResource Section.Title}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding ConnectionText}" Style="{StaticResource Section.Subtitle}" />
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-                        <Border Style="{StaticResource Badge}"
+                    <StackPanel Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Margin="12,0,0,0">
+                        <Border Style="{StaticResource Status.Chip}"
                                 Margin="0,0,8,0"
                                 Visibility="{Binding Printer.IsEpson, Converter={StaticResource BoolToVis}}">
                             <TextBlock Text="EPSON"
-                                       FontSize="11"
-                                       FontWeight="SemiBold"
+                                       Style="{StaticResource Status.ChipText}"
                                        Foreground="{StaticResource Brush.Accent}" />
                         </Border>
 
                         <Border Margin="0,0,8,0">
                             <Border.Style>
-                                <Style TargetType="Border" BasedOn="{StaticResource Badge}">
+                                <Style TargetType="Border" BasedOn="{StaticResource Status.Chip}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Printer.Condition}" Value="Normal">
                                             <Setter Property="Background" Value="{StaticResource Brush.SuccessSoft}" />
@@ -80,90 +107,105 @@
                                     </Style.Triggers>
                                 </Style>
                             </Border.Style>
-                            <TextBlock Text="{Binding ConditionText}" FontSize="11" FontWeight="SemiBold" />
+                            <TextBlock Text="{Binding ConditionText}"
+                                       Style="{StaticResource Status.ChipText}" />
                         </Border>
 
-                        <Border Style="{StaticResource Badge}"
+                        <Border Style="{StaticResource Status.Chip}"
                                 Visibility="{Binding Printer.IsDefault, Converter={StaticResource BoolToVis}}">
                             <TextBlock Text="Default printer"
-                                       FontSize="11"
+                                       Style="{StaticResource Status.ChipText}"
                                        Foreground="{StaticResource Brush.TextSecondary}" />
                         </Border>
                     </StackPanel>
                 </Grid>
 
-                <Grid Margin="0,18,0,0">
+                <!-- MAIN CONTENT: TWO COLUMNS -->
+                <Grid Margin="0,12,0,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="420" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="0.55*" />
+                        <ColumnDefinition Width="0.45*" />
                     </Grid.ColumnDefinitions>
 
-                    <Border Grid.Column="0" Style="{StaticResource Card}" Margin="0,0,14,0">
+                    <!-- LEFT: PRINTER INFORMATION -->
+                    <Border Grid.Column="0" Style="{StaticResource Card.Section}" Margin="0,0,8,0">
                         <StackPanel>
-                            <TextBlock Text="PRINTER INFORMATION" Style="{StaticResource Text.SectionHeader}" />
-
-                            <Grid Margin="0,14,0,0">
+                            <TextBlock Text="Printer information" Style="{StaticResource Card.HeaderLabel}" />
+                            <Grid Margin="0,4,0,16">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="132" />
-                                    <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="140" />
+                                <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
 
-                                <TextBlock Text="Model" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
-                                <TextBlock Grid.Column="1" Text="{Binding ModelText}" Style="{StaticResource Text.Value}" Margin="0,0,0,11" />
+                                <TextBlock Text="Model" Grid.Row="0" Style="{StaticResource Info.Label}" Margin="0,0,0,8" />
+                                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding ModelText}" Style="{StaticResource Text.Value}" Margin="0,0,0,8" />
 
-                                <TextBlock Text="Manufacturer" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
-                                <TextBlock Grid.Column="1" Text="{Binding ManufacturerText}" Style="{StaticResource Text.Value}" Margin="0,0,0,11" />
+                                <TextBlock Text="Manufacturer" Grid.Row="1" Style="{StaticResource Info.Label}" Margin="0,0,0,8" />
+                                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding ManufacturerText}" Style="{StaticResource Text.Value}" Margin="0,0,0,8" />
 
-                                <TextBlock Text="Driver" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
-                                <TextBlock Grid.Column="1" Text="{Binding DriverText}" Style="{StaticResource Text.Value}" Margin="0,0,0,11" />
+                                <TextBlock Text="Driver" Grid.Row="2" Style="{StaticResource Info.Label}" Margin="0,0,0,8" />
+                                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding DriverText}" Style="{StaticResource Text.Value}" Margin="0,0,0,8" />
 
-                                <TextBlock Text="Driver version" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
-                                <TextBlock Grid.Column="1" Text="{Binding DriverVersionText}" Style="{StaticResource Text.Value}" Margin="0,0,0,11" />
+                                <TextBlock Text="Driver version" Grid.Row="3" Style="{StaticResource Info.Label}" Margin="0,0,0,8" />
+                                <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding DriverVersionText}" Style="{StaticResource Text.Value}" Margin="0,0,0,8" />
 
-                                <TextBlock Text="Driver file" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
-                                <TextBlock Grid.Column="1"
+                                <TextBlock Text="Driver file" Grid.Row="4" Style="{StaticResource Info.Label}" Margin="0,0,0,8" />
+                                <TextBlock Grid.Column="1" Grid.Row="4"
                                            Text="{Binding Printer.DriverInfName, TargetNullValue=Not reported}"
-                                           Style="{StaticResource Text.Mono}"
-                                           Margin="0,0,0,11" />
+                                           Style="{StaticResource Text.Mono}" Margin="0,0,0,8" />
 
-                                <TextBlock Text="Port" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
-                                <TextBlock Grid.Column="1" Text="{Binding PortText}" Style="{StaticResource Text.Mono}" Margin="0,0,0,11" />
+                                <TextBlock Text="Port" Grid.Row="5" Style="{StaticResource Info.Label}" Margin="0,0,0,8" />
+                                <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding PortText}" Style="{StaticResource Text.Mono}" Margin="0,0,0,8" />
 
-                                <TextBlock Text="Connection" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
-                                <TextBlock Grid.Column="1" Text="{Binding ConnectionText}" Style="{StaticResource Text.Value}" Margin="0,0,0,11" />
+                                <TextBlock Text="Connection" Grid.Row="6" Style="{StaticResource Info.Label}" Margin="0,0,0,8" />
+                                <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding ConnectionText}" Style="{StaticResource Text.Value}" Margin="0,0,0,8" />
 
-                                <TextBlock Text="IP address" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
-                                <TextBlock Grid.Column="1" Text="{Binding AddressText}" Style="{StaticResource Text.Mono}" Margin="0,0,0,11" />
+                                <TextBlock Text="IP address" Grid.Row="7" Style="{StaticResource Info.Label}" Margin="0,0,0,8" />
+                                <TextBlock Grid.Column="1" Grid.Row="7" Text="{Binding AddressText}" Style="{StaticResource Text.Mono}" Margin="0,0,0,8" />
 
-                                <TextBlock Text="Port number" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
-                                <TextBlock Grid.Column="1" Text="{Binding PortNumberText}" Style="{StaticResource Text.Value}" Margin="0,0,0,11" />
+                                <TextBlock Text="Port number" Grid.Row="8" Style="{StaticResource Info.Label}" Margin="0,0,0,8" />
+                                <TextBlock Grid.Column="1" Grid.Row="8" Text="{Binding PortNumberText}" Style="{StaticResource Text.Value}" Margin="0,0,0,8" />
 
-                                <TextBlock Text="Location" Style="{StaticResource Text.Label}" Margin="0,0,0,11" />
-                                <TextBlock Grid.Column="1"
+                                <TextBlock Text="Location" Grid.Row="9" Style="{StaticResource Info.Label}" Margin="0,0,0,8" />
+                                <TextBlock Grid.Column="1" Grid.Row="9"
                                            Text="{Binding Printer.Location, TargetNullValue=Not reported}"
-                                           Style="{StaticResource Text.Value}"
-                                           Margin="0,0,0,11" />
+                                           Style="{StaticResource Text.Value}" Margin="0,0,0,8" />
 
-                                <TextBlock Text="Detected" Style="{StaticResource Text.Label}" />
-                                <TextBlock Grid.Column="1" Text="{Binding DetectedText}" Style="{StaticResource Text.Value}" />
+                                <TextBlock Text="Detected" Grid.Row="10" Style="{StaticResource Info.Label}" />
+                                <TextBlock Grid.Column="1" Grid.Row="10" Text="{Binding DetectedText}" Style="{StaticResource Text.Value}" />
                             </Grid>
                         </StackPanel>
                     </Border>
 
-                    <Border Grid.Column="1" Style="{StaticResource Card}">
+                    <!-- RIGHT: WEB ADMIN -->
+                    <Border Grid.Column="1" Style="{StaticResource Card.Section}">
                         <StackPanel>
-                            <TextBlock Text="PRINTER WEB ADMIN" Style="{StaticResource Text.SectionHeader}" />
+                            <TextBlock Text="Printer Web Admin" Style="{StaticResource Card.HeaderLabel}" />
                             <TextBlock Text="Open the printer's built-in administration page in the default browser."
                                        Style="{StaticResource Text.Hint}"
-                                       Margin="0,6,0,0" />
+                                       Margin="0,4,0,16"
+                                       TextWrapping="Wrap" />
 
                             <Border Background="{StaticResource Brush.HeaderBackground}"
                                     CornerRadius="6"
                                     Padding="12"
-                                    Margin="0,14,0,0">
+                                    Margin="0,0,0,16">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="96" />
+                                        <ColumnDefinition Width="80" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="Detected" Style="{StaticResource Text.Label}" VerticalAlignment="Center" />
@@ -178,8 +220,8 @@
                                 </Grid>
                             </Border>
 
-                            <TextBlock Text="IP address or hostname" Style="{StaticResource Text.Label}" Margin="0,16,0,6" />
-                            <Grid>
+                            <TextBlock Text="IP address or hostname" Style="{StaticResource Text.Label}" Margin="0,0,0,6" />
+                            <Grid Margin="0,0,0,12">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
@@ -206,9 +248,9 @@
                                        Foreground="{StaticResource Brush.Warning}"
                                        FontSize="12"
                                        TextWrapping="Wrap"
-                                       Margin="0,12,0,0" />
+                                       Margin="0,0,0,12" />
 
-                            <ItemsControl ItemsSource="{Binding WebAdminCandidates}" Margin="0,14,0,0">
+                            <ItemsControl ItemsSource="{Binding WebAdminCandidates}" Margin="0,0,0,12">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Button Style="{StaticResource Button.Secondary}"
@@ -222,10 +264,10 @@
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
 
-                            <Border Margin="0,14,0,0" Padding="12" CornerRadius="6">
+                            <Border Margin="0,0,0,0" Padding="12" CornerRadius="6">
                                 <Border.Style>
                                     <Style TargetType="Border">
-                                        <Setter Property="Background" Value="{StaticResource Brush.SuccessSoft}" />
+                                        <Setter Property="Background" Value="{StaticResource Brush.InfoSoft}" />
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding WebAdminIsError}" Value="True">
                                                 <Setter Property="Background" Value="{StaticResource Brush.WarningSoft}" />
@@ -243,12 +285,13 @@
                     </Border>
                 </Grid>
 
-                <Border Style="{StaticResource Card}" Margin="0,16,0,0">
+                <!-- DIAGNOSTICS -->
+                <Border Style="{StaticResource Card.Section}" Margin="0,12,0,0">
                     <StackPanel>
                         <Grid>
                             <StackPanel>
-                                <TextBlock Text="Diagnostics" Style="{StaticResource Text.CardTitle}" />
-                                <TextBlock Text="{Binding DiagnosticSummary}" Style="{StaticResource Text.Hint}" Margin="0,3,0,0" />
+                                <TextBlock Text="Diagnostics" Style="{StaticResource Card.HeaderLabel}" />
+                                <TextBlock Text="{Binding DiagnosticSummary}" Style="{StaticResource Text.Hint}" Margin="0,4,0,0" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
@@ -307,8 +350,14 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+
+                        <TextBlock Text="Run diagnostics to see spooler, driver, port, ICMP, TCP 9100 and Web Admin checks."
+                                   Style="{StaticResource Text.Hint}"
+                                   Margin="0,12,0,0"
+                                   Visibility="{Binding HasReport, Converter={StaticResource BoolToVis}}" />
                     </StackPanel>
                 </Border>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

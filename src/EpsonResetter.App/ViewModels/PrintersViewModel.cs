@@ -102,7 +102,8 @@ public sealed partial class PrintersViewModel : ViewModelBase, INavigationPage
 
         if (ConnectionFilter != "All")
         {
-            query = query.Where(printer => printer.ConnectionType.ToString() == ConnectionFilter);
+            query = query.Where(printer =>
+                string.Equals(printer.ConnectionType.ToString(), ConnectionFilter, StringComparison.OrdinalIgnoreCase));
         }
 
         var filtered = query.ToList();

@@ -10,11 +10,13 @@ public sealed partial class MaintenanceViewModel : ViewModelBase, INavigationPag
 {
     private readonly AppServices _services;
     private readonly AppState _state;
+    private readonly IDialogService _dialogs;
 
-    public MaintenanceViewModel(AppServices services, AppState state)
+    public MaintenanceViewModel(AppServices services, AppState state, IDialogService dialogs)
     {
         _services = services;
         _state = state;
+        _dialogs = dialogs ?? throw new ArgumentNullException(nameof(dialogs));
     }
 
     public string Title => "Maintenance";
@@ -57,7 +59,17 @@ public sealed partial class MaintenanceViewModel : ViewModelBase, INavigationPag
 
     [RelayCommand]
     private Task PrintTestPage() => ExecuteAsync(
-        () => _services.Maintenance.PrintTestPageAsync(Printer!.Name),
+        async () =>
+        {
+            if (Printer is null || !_dialogs.Confirm(
+                    "Print a Windows test page for this printer?",
+                    "Print test page"))
+            {
+                return false;
+            }
+
+            return await _services.Maintenance.PrintTestPageAsync(Printer!.Name);
+        },
         "Windows test page",
         "Maintenance.PrintTestPage");
 

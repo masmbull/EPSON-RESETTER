@@ -12,35 +12,49 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <StackPanel>
-                <TextBlock Text="Dashboard" Style="{StaticResource Text.PageTitle}" />
+        <!-- HEADER -->
+        <Grid Grid.Row="0" Style="{StaticResource Section.Header}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource Section.Icon}">
+                <Path Style="{StaticResource Section.Glyph}" Data="{StaticResource Icon.Dashboard}" />
+            </Border>
+            <StackPanel Grid.Column="1" Margin="16,0,0,0">
+                <TextBlock Text="Dashboard" Style="{StaticResource Section.Title}" />
                 <TextBlock Text="What Windows reports about the local printers and what EPSON RESETTER has recorded."
-                           Style="{StaticResource Text.PageSubtitle}" />
+                           Style="{StaticResource Section.Subtitle}" />
             </StackPanel>
 
-            <Button Style="{StaticResource Button.Secondary}"
+            <Button Grid.Column="2"
+                    Style="{StaticResource Button.Secondary}"
                     Content="Rescan printers"
                     Command="{Binding RefreshCommand}"
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Top" />
+                    VerticalAlignment="Center"
+                    Margin="0,0,0,0" />
         </Grid>
 
-        <UniformGrid Grid.Row="1" Columns="4" Margin="0,20,0,0">
-            <Border Style="{StaticResource Card}" Margin="0,0,10,0">
+        <!-- STAT CARDS -->
+        <UniformGrid Grid.Row="1" Columns="4" Margin="0,0,0,16">
+            <Border Style="{StaticResource Card}" Margin="0,0,8,0">
                 <StackPanel>
-                    <TextBlock Text="PRINTERS" Style="{StaticResource Text.SectionHeader}" />
+                    <TextBlock Text="Printers" Style="{StaticResource Card.HeaderLabel}" />
                     <TextBlock Text="{Binding TotalPrinters}"
                                FontSize="28"
                                FontWeight="SemiBold"
+                               Foreground="{StaticResource Brush.TextPrimary}"
                                Margin="0,6,0,0" />
                     <TextBlock Text="{Binding LastScanText}" Style="{StaticResource Text.Hint}" Margin="0,4,0,0" />
                 </StackPanel>
             </Border>
 
-            <Border Style="{StaticResource Card}" Margin="0,0,10,0">
+            <Border Style="{StaticResource Card}" Margin="0,0,8,0">
                 <StackPanel>
-                    <TextBlock Text="EPSON" Style="{StaticResource Text.SectionHeader}" />
+                    <TextBlock Text="Epson" Style="{StaticResource Card.HeaderLabel}" />
                     <TextBlock Text="{Binding EpsonPrinters}"
                                FontSize="28"
                                FontWeight="SemiBold"
@@ -52,12 +66,13 @@
                 </StackPanel>
             </Border>
 
-            <Border Style="{StaticResource Card}" Margin="0,0,10,0">
+            <Border Style="{StaticResource Card}" Margin="0,0,8,0">
                 <StackPanel>
-                    <TextBlock Text="NETWORK" Style="{StaticResource Text.SectionHeader}" />
+                    <TextBlock Text="Network" Style="{StaticResource Card.HeaderLabel}" />
                     <TextBlock Text="{Binding NetworkPrinters}"
                                FontSize="28"
                                FontWeight="SemiBold"
+                               Foreground="{StaticResource Brush.TextPrimary}"
                                Margin="0,6,0,0" />
                     <TextBlock Text="Printers on a TCP/IP port"
                                Style="{StaticResource Text.Hint}"
@@ -65,9 +80,9 @@
                 </StackPanel>
             </Border>
 
-            <Border Style="{StaticResource Card}">
+            <Border Style="{StaticResource Card}" Margin="0,0,0,0">
                 <StackPanel>
-                    <TextBlock Text="OFFLINE OR ERROR" Style="{StaticResource Text.SectionHeader}" />
+                    <TextBlock Text="Offline or error" Style="{StaticResource Card.HeaderLabel}" />
                     <TextBlock Text="{Binding OfflinePrinters}"
                                FontSize="28"
                                FontWeight="SemiBold"
@@ -80,31 +95,29 @@
             </Border>
         </UniformGrid>
 
-        <Grid Grid.Row="2" Margin="0,18,0,0">
+        <!-- MAIN CONTENT: TWO COLUMNS -->
+        <Grid Grid.Row="2" Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" Style="{StaticResource Card}" Margin="0,0,10,0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="0">
+            <!-- RECENT ACTIVITY -->
+            <Border Grid.Column="0" Style="{StaticResource Card.Section}" Margin="0,0,8,0">
+                <StackPanel>
+                    <Grid>
                         <StackPanel>
-                            <TextBlock Text="Recent activity" Style="{StaticResource Text.CardTitle}" />
+                            <TextBlock Text="Recent activity" Style="{StaticResource Card.HeaderLabel}" />
                             <TextBlock Text="The last recorded actions from this computer."
                                        Style="{StaticResource Text.Hint}"
-                                       Margin="0,3,0,0" />
+                                       Margin="0,4,0,0" />
                         </StackPanel>
                         <Button Style="{StaticResource Button.Ghost}"
                                 Content="View all"
                                 Command="{Binding OpenHistoryCommand}"
                                 HorizontalAlignment="Right"
-                                VerticalAlignment="Top" />
+                                VerticalAlignment="Top"
+                                Margin="0,-4,0,0" />
                     </Grid>
 
                     <ItemsControl Grid.Row="1" ItemsSource="{Binding RecentActivity}" Margin="0,12,0,0">
@@ -112,7 +125,8 @@
                             <DataTemplate>
                                 <Border BorderBrush="{StaticResource Brush.Border}"
                                         BorderThickness="0,0,0,1"
-                                        Padding="0,10">
+                                        Padding="0,10"
+                                        Margin="0,0,0,6">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="120" />
@@ -133,8 +147,8 @@
                                                        Foreground="{StaticResource Brush.TextSecondary}"
                                                        TextTrimming="CharacterEllipsis" />
                                         </StackPanel>
-                                        <Border Grid.Column="2" Style="{StaticResource Badge}" VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Result}" FontSize="11" />
+                                        <Border Grid.Column="2" Style="{StaticResource Status.Chip}" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Result}" Style="{StaticResource Status.ChipText}" />
                                         </Border>
                                     </Grid>
                                 </Border>
@@ -145,7 +159,8 @@
                     <TextBlock Grid.Row="1"
                                Text="No activity has been recorded yet."
                                VerticalAlignment="Center"
-                               HorizontalAlignment="Center">
+                               HorizontalAlignment="Center"
+                               Margin="0,24,0,0">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource Text.Hint}">
                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -157,37 +172,39 @@
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
-                </Grid>
+                </StackPanel>
             </Border>
 
-            <Border Grid.Column="1" Style="{StaticResource Card}">
+            <!-- SYSTEM -->
+            <Border Grid.Column="1" Style="{StaticResource Card.Section}">
                 <StackPanel>
-                    <TextBlock Text="System" Style="{StaticResource Text.CardTitle}" />
-                    <TextBlock Text="{Binding SpoolerText}" Style="{StaticResource Text.Value}" Margin="0,12,0,0" />
-                    <TextBlock Text="{Binding CompatibilityText}" Style="{StaticResource Text.Value}" Margin="0,8,0,0" />
+                    <TextBlock Text="System" Style="{StaticResource Card.HeaderLabel}" />
+                    <TextBlock Text="{Binding SpoolerText}" Style="{StaticResource Text.Value}" Margin="0,4,0,8" />
+                    <TextBlock Text="{Binding CompatibilityText}" Style="{StaticResource Text.Value}" Margin="0,0,0,8" />
                     <TextBlock Text="{Binding ResetSupportText}"
                                Style="{StaticResource Text.Value}"
                                Foreground="{StaticResource Brush.Warning}"
-                               Margin="0,8,0,0" />
+                               Margin="0,0,0,16" />
 
                     <Border Height="1"
                             Background="{StaticResource Brush.Border}"
-                            Margin="0,16,0,16" />
+                            Margin="0,0,0,16" />
 
-                    <TextBlock Text="EPSON RESETTER reads the Windows print subsystem only. It does not install drivers, modify the spooler or send reset commands to printers."
-                               Style="{StaticResource Text.Hint}" />
+                    <TextBlock Text="EPSON RESETTER reads the Windows print subsystem only. It does not install drivers, modify the print spooler or send reset commands to printers."
+                               Style="{StaticResource Text.Hint}"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,16" />
 
                     <Button Style="{StaticResource Button.Secondary}"
                             Content="Open printer list"
                             Command="{Binding OpenPrintersCommand}"
                             HorizontalAlignment="Left"
-                            Margin="0,16,0,0" />
+                            Margin="0,0,0,8" />
 
                     <Button Style="{StaticResource Button.Ghost}"
                             Content="Open settings"
                             Command="{Binding OpenSettingsCommand}"
-                            HorizontalAlignment="Left"
-                            Margin="0,6,0,0" />
+                            HorizontalAlignment="Left" />
                 </StackPanel>
             </Border>
         </Grid>

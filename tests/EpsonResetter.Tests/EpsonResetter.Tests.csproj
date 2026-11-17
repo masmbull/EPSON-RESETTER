@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\EpsonResetter.Core\EpsonResetter.Core.csproj" />
     <ProjectReference Include="..\..\src\EpsonResetter.Infrastructure\EpsonResetter.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\EpsonResetter.App\EpsonResetter.App.csproj" />
   </ItemGroup>
 
 </Project>

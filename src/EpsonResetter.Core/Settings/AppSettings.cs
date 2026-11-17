@@ -17,7 +17,7 @@ public sealed class AppSettings
 
     public int NetworkTimeoutMs { get; set; } = 1500;
 
-    public bool ShowOnlyEpsonByDefault { get; set; } = true;
+    public bool ShowOnlyEpsonByDefault { get; set; } = false;
 
     public bool ConfirmBeforeOpeningAdmin { get; set; } = true;
 
